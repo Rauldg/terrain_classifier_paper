@@ -34,8 +34,7 @@ Dominguez. Raul \and Kuhr, Lennart \and Babel, Jonathan
 Automated terrain awareness, the correct modeling of the surfaces transited by a rover and its’ classification, is a key factor for successful navigation. 
 \todo[inline]{more on motivation why is this important}
 In this publication a software component that is capable of classifying the traversed terrain type based on proprioceptive sensor data is presented. 
-The component uses a Support Vector Machine (SVM) algorithm in its core and it is integrated into the software control architecture of SherpaTT, such that it can be executed sufficiently fast during navigation. 
-\todo[inline]{references to SherpaTT and to SVM}
+The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core and it is integrated into the software control architecture of the hybrid locomotion rover SherpaTT \cite{cordes2018}, such that it can be executed sufficiently fast during navigation. 
 The functionality has been integrated using the framework Robotic Construction Toolkit (Rock).
 One of the main challenges addressed by the middleware component is to generate online from the multifrequency datastreams, matrices of synchronous sample values for classification.
 
