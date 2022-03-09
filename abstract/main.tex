@@ -10,14 +10,24 @@
 
 % Useful packages
 \usepackage{amsmath}
+\usepackage{authblk}
 \usepackage{graphicx}
 \usepackage{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{Rock Implementation of an On-Board Terrain Classifier based on Proprioceptive Sensor Data for a Planetary Rover}
-\author{
-Dominguez. Raul \and Kuhr, Lennart \and Babel, Jonathan
-}
+\title{Implementation of an On-Board Terrain Classifier based on Proprioceptive Sensor Data for a Planetary Rover}
+\author[1]{Raul Dominguez}
+\author[2]{Lennart Kuhr}
+\author[1]{Jonathan Babel}
+\author[1]{Florian Cordes}
+\author[3]{Giulio Reina}
+\author[1,4]{Frank Kirchner}
+
+\affil[1]{DFKI Robotics Innovation Center Bremen Robert-Hooke-Str. 1, 28359 Bremen, Germany; E-mail: name.surname@dfki.de}
+\affil[2]{Institute of Space Systems, TU Braunschweig, Herman-Blenck-Straße 23, 38108 Braunschweig, Germany, E-mail: l.kuhr@tu-braunschweig.de}
+\affil[3]{Department of Mechanics, Mathematics and Management, Polytechnic of Bari, Via Orabona 4, 70125, Bari, Italy, E-mail: giulio.reina@poliba.it}
+\affil[4]{Robotics Research Group, University of Bremen, Bremen, Germany}
+
 
 \begin{document}
 \maketitle
@@ -26,13 +36,12 @@ Dominguez. Raul \and Kuhr, Lennart \and Babel, Jonathan
 
 %\end{abstract}
 
-\section{Introduction}
-
-\todo[inline]{Contact Giulio Reina in case he and someone else from his team wants to be included as authors}
+%\section{Introduction}
 
 % Introduction main motivation and main idea of the paper explain in detail the implementation of a SMV-based proprioceptive terrain classifier
-Automated terrain awareness, the correct modeling of the surfaces transited by a rover and its’ classification, is a key factor for successful navigation. 
-\todo[inline]{more on motivation, why is this important? how will it be used by the navigation stack... Problems in missions due to not having this}
+Terrain awareness, the correct modeling of the surfaces transited and its’ classification is a key factor for reliable autonomous navigation and environment modelling.
+The lack of appropriate surface modelling can cause rover navigation operations to fail, as exemplary shown by the rover Opportunity in Mars that was trapped in a sand dune while performing an apparently usual traverse \cite{cowen2005}.
+
 In this publication a software component implementation that is capable of classifying the traversed terrain type based on proprioceptive sensor data is presented. 
 The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core and it is integrated into the software control architecture of the hybrid locomotion rover SherpaTT \cite{cordes2018}, such that it can be executed sufficiently fast during navigation. 
 The functionality has been integrated using the framework Robotic Construction Toolkit (Rock).
