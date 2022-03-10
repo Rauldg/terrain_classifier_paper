@@ -11,9 +11,13 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage{authblk}
+\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\renewcommand\Authfont{\fontsize{9}{10}\selectfont}
+\renewcommand\Affilfont{\fontsize{8}{9}\itshape}
 
 \title{Implementation of an On-Board Terrain Classifier based on Proprioceptive Sensor Data for a Planetary Rover}
 \author[1]{Raul Dominguez}
@@ -22,14 +26,14 @@
 \author[1]{Florian Cordes}
 \author[3]{Giulio Reina}
 \author[1,4]{Frank Kirchner}
-
 \affil[1]{DFKI Robotics Innovation Center Bremen Robert-Hooke-Str. 1, 28359 Bremen, Germany; E-mail: name.surname@dfki.de}
 \affil[2]{Institute of Space Systems, TU Braunschweig, Herman-Blenck-Straße 23, 38108 Braunschweig, Germany, E-mail: l.kuhr@tu-braunschweig.de}
 \affil[3]{Department of Mechanics, Mathematics and Management, Polytechnic of Bari, Via Orabona 4, 70125, Bari, Italy, E-mail: giulio.reina@poliba.it}
 \affil[4]{Robotics Research Group, University of Bremen, Bremen, Germany}
 
-
 \begin{document}
+
+\date{}
 \maketitle
 
 %\begin{abstract}
@@ -49,18 +53,22 @@ disrupted the mission timeline \cite{gonzalez2018}. For example, it took five we
 rover from sand in 2006 \cite{young2006}, and rover trajectories are frequently adjusted to avoid
 challenging terrain \cite{arvidson2017}. The potentially worst situation occurred in 2009 when the
 Spirit rover got stuck in the sand and was unable to recover, ultimately ending the mission
-\cite{webster2009}. Terrain awareness, the correct modeling of the surfaces transited and its classification is a key factor for reliable autonomous navigation and environment modelling. The lack of appropriate surface modelling can cause rover navigation operations to fail, as shown by the rover Opportunity on Mars, when it was trapped in a sand dune while performing an apparently usual traverse \cite{cowen2005}.
+\cite{webster2009}. 
+Terrain awareness, the correct modeling of the surfaces transited and its classification is a key factor for reliable autonomous navigation and environment modelling. 
+An appropriate surface modelling can be used to avoid rover navigation operations problems as the ones described before. 
+Furthemore, it can be used to enhance the navigation capabilities by adapting the system settings according to the terrain features.
 
 In this publication a software component implementation that is capable of classifying the traversed terrain type based on proprioceptive sensor data is presented. 
-The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core and it is integrated into the software control architecture of the mobile exploration robot SherpaTT, such that it can be executed sufficiently fast during navigation. SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The novel software component has been integrated using the framework Robotic Construction Toolkit (Rock).
+The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core and it is integrated into the software control architecture of the mobile exploration robot SherpaTT, such that it can be executed sufficiently fast during navigation. SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. 
+The novel software component has been integrated using the framework Robotic Construction Toolkit (Rock)\footnote{Rock: The Robot Construction Kit (\url{http://rock-robotics.org})}.
 
 One of the main challenges addressed by the middleware component is generating matrices of synchronous sample values for classification online from datastreams with multiple frequencies.
 %During the traverse the terrain classifier component uses proprioceptive sensor data -force torque sensors and joints- and dataproducts -acceleration estimates- to classify between the three terrain types.
 % Background and approach
 During navigation the terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
 The three terrain types represent distinct classes of surfaces characterized by its deformability and friction properties but are hard to identify with exteroceptive sensors since they are visually similar.
-In order to achieve a better classification performance as well as a more in depth characterization of the surface patches, a feature calculation process is performed. 
-The computed features estimate physical properties such as mechanical power, electrical power, friction coefficients and speed deviation. Along with all of theses features corresponding statistical values, i.e. variance, skewness and kurtosis are evaluated. 
+In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed. 
+The computed features estimate physical properties such as mechanical power, electrical power, friction coefficients and speed deviation. Along with all of these features, the corresponding statistical values, i.e. variance, skewness and kurtosis are evaluated. 
 Finally, critical features for terrain classification must be identified to reduce the dimensionality of inputs to the classifier.
 This feature selection process was done using a WB index and the Pearson Coefficient as detailled in \cite{Dimastrogiovanni2020}. 
 
@@ -78,9 +86,19 @@ The diagram in Figure \ref{fig:overview} presents the implementation approach.
 % The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance. 
 
 % Evaluation
-For the analysis of the classification performance onboard SherpaTT, the results generated during several test traverses were logged and compared with the ones from the training sets.
-Several tests were conducted which validated that the developed code can be successfully executed on SherpaTT.
-Moreover, the classification performance achieved onboard SherpaTT was identified during tests on terrain that represent at least one of the three terrain type classes.
+The initial offline evaluation of the SVM classifier reached an accuracy of 93.97\% as shown in the confusion matrix in Figure \ref{fig:confusionmatrix}.
+For the analysis of the classification performance onboard SherpaTT, the results generated during several test traverses were logged and compared with the ones from the training sets. 
+Since the terrain traversed on the field tests did not match the previously trained terrain classes, a complete analysis of performance was not possible, nevertheless the results show good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
+Several tests were conducted which validated that the developed code can be successfully executed on SherpaTT producing while traversing the computation of the features as well as terrain classification. 
+On a single thread, using a i7 processor with a CPU clock speed of 4.6 GHz the C++ calculations and classification were executed in suﬃcient time in parallel to the rest of SherpaTT's Motion Control System.
+%Moreover, the classification performance achieved onboard SherpaTT was identified during tests on terrain that represent at least one of the three terrain type classes.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{../figures/confusionmatrix_Train.png}
+\caption{\label{fig:confusionmatrix} Shows the performance of the SVM model. Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%}
+\end{figure}
+
 
 
 \bibliographystyle{alpha}
