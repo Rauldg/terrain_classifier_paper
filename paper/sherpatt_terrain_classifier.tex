@@ -92,20 +92,30 @@ In this section background on the SherpaTT hardware, software architecture and t
 \subsection{SherpaTT}
 \todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
-\subsection{The Robot Construction Toolkit}
-The different software libraries that enable the control and perception mechanisms of SherpaTT exchange data and information through the Robotics Contruction Toolkit (Rock) framework.
-The framework not only provides the wrapping mechanisms for the libraries and its communications but also the possibility to enforce realtime execution of the control loops when using a realtime supporting Linux kernel.
-Furthermore, Rock also provides a set of useful tools for the development, testing and evaluation of the software. 
-In this particular implementations tools for logging, replaying of logs and filtering in datastreams have been helpful.
-
-% Challenges
-One of the main challenges addressed by the middleware component is to generate matrices of synchronous sample values for classification online from datastreams with multiple frequencies.
 %During the traverse the terrain classifier component uses proprioceptive sensor data -force torque sensors and joints- and dataproducts -acceleration estimates- to classify between the three terrain types.
 
+\subsection{Development Tools}
 
-\todo[inline]{RD: TODO for @RD: Explain the Rock tasks, the type2vector software, logging, replay and runtime supervision tools}
+The different software libraries that enable the control and perception mechanisms of SherpaTT exchange data and information through the Robotics Contruction Toolkit (Rock) framework.
+The framework not only provides the wrapping mechanisms for the libraries and its communications but also the possibility to enforce realtime execution of the control loops when using a realtime supporting Linux kernel.
+Furthermore, Rock also provides a set of useful tools for the development, testing and evaluation of the software (e.g. runtime data exchange statistics and visualization). 
+For the implementation presented tools for data logging, replaying and memory-signature based data selection from datastreams have been employed.
 
+% Challenges
+The runtime data selection is on of the key features addressed by the middleware. 
+The problem consist in generating matrices of synchronous sample values for classification online from datastreams with multiple frequencies.
+Each datastream relevant for the classification contains in addition to the relevant data, data which has to be filtered out (e.g. timestamps) since it is irrelevant for the classification.
+To select the fields of the datatypes in the samples of the datastream the library \emph{type to vector}\footnote{Type to vector: \url{https://github.com/rock-data-processing/data_processing-orogen-type_to_vector}} is used.
+It uses the type memory descriptions of the samples which contain relevant data to select from the incoming streams only the relevant attributes and stack them into the input matrix. 
+The synchronizity of the data is achieved using the timestamps with which the sensor data is marked at acquisition time.
+Since streams can have different update rates, but the input matrices need data from the different sources at the same rate, a strategy is needed to drop or interpolate data. 
+In this particular case, the classification takes place at a frequency of 100Hz which is also the highest input frequency (joint values), streams which have lower frequency, provide the same data to several input matrices.
 
+Other Rock key tools employed in the development of the terrain classifier were the logging mechanism, which allows for the storage in hard drive of the sensor and fused data while traversing for later use offline. 
+To process the logged data offline two different tool were employed: the rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data offline so it can be used for training and testing the classifier.
+\emph{pocolog to msgpack} converts the data from its rock binary representation to the almost universal \emph{msgpack} format.
+Furthermore \emph{pocolog to msgpack} also allows for the conversion of the logged data into python dataframes the widely used python data science and machine learning format. 
+Finally, the runtime inspection tool of rock-display were employed to monitor the processing time of the classifier, the connections for the needed data and to visualize the coherence of all input datastreams. 
 
 
 \subsection{Terrain Classifier}
