@@ -109,13 +109,12 @@ To select the fields of the datatypes in the samples of the datastream the libra
 It uses the type memory descriptions of the samples which contain relevant data to select from the incoming streams only the relevant attributes and stack them into the input matrix. 
 The synchronizity of the data is achieved using the timestamps with which the sensor data is marked at acquisition time.
 Since streams can have different update rates, but the input matrices need data from the different sources at the same rate, a strategy is needed to drop or interpolate data. 
-In this particular case, the classification takes place at a frequency of 100Hz which is also the highest input frequency (joint values), streams which have lower frequency, provide the same data to several input matrices.
 
-Other Rock key tools employed in the development of the terrain classifier were the logging mechanism, which allows for the storage in hard drive of the sensor and fused data while traversing for later use offline. 
-To process the logged data offline two different tool were employed: the rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data offline so it can be used for training and testing the classifier.
+The Rock logging mechanism, was used to store in hard drive the sensor and fused datastreams while traversing for later use offline (i.e. data collection). 
+To process the logged data offline two different tools were employed: the rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data offline, so that it can be used for training and testing the classifier.
 \emph{pocolog to msgpack} converts the data from its rock binary representation to the almost universal \emph{msgpack} format.
 Furthermore \emph{pocolog to msgpack} also allows for the conversion of the logged data into python dataframes the widely used python data science and machine learning format. 
-Finally, the runtime inspection tool of rock-display were employed to monitor the processing time of the classifier, the connections for the needed data and to visualize the coherence of all input datastreams. 
+Finally, the runtime inspection tools of Rock were employed to monitor the processing time of the classifier, the connections for the needed data and to visualize the coherence of all input datastreams. 
 
 
 \subsection{Terrain Classifier}
@@ -133,6 +132,10 @@ Likewise, the loss of data samples due to full queues on the input of the proces
 \section{Implementation}
 \todo[inline]{RD: TODO for @RD: Add the diagrams and explanations of the software implementation, in particular showing how the data is taken on runtime from the streams fed to the classifier and delivered by the task port}
 
+In this particular case, the classification takes place at a frequency of 100Hz which is also the highest input frequency (joint values), streams which have lower frequency, provide the same data to several input matrices.
+
+
+
 The diagram in Figure~\ref{fig:overview} presents the implementation approach of the terrain classifier in Rock.
 
 \begin{figure}[h]
@@ -147,6 +150,7 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 \section{Evaluation}
 \subsection{Offline tests}
 \todo[inline]{RD: TODO for @LK: Provide the results that were collected when testing offline}
+
 
 \begin{figure}[h]
 \centering
