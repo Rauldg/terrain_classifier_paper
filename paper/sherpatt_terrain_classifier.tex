@@ -16,12 +16,13 @@
 \usepackage{todonotes}
 \usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
 \usepackage{caption}    % lets you define the fontsize of figure captions
+\usepackage{subcaption}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 %added by LK
 \usepackage{textgreek}
 \usepackage{ltablex} %have centerised tables
-\usepackage{subfig}
+%\usepackage{subfig}
 
 \renewcommand\Authfont{\fontsize{9}{10}\selectfont}
 \renewcommand\Affilfont{\fontsize{8}{9}\itshape}
@@ -232,19 +233,29 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 \caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
 \end{figure}
 
-\subsubsection{Training Data}
+\subsection{Training Data}
 \todo[inline]{RD: TODO for @LK: Explain the datasets that were collected for the training and how division between training and test data was done}
 
 An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work
-consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campagnes. 
-\begin{figure}[!htb]
-\centering
- \subfloat(a) {\includegraphics[width=0.46\textwidth]{../figures/unprepsand.png}} 
- \subfloat(b) {\includegraphics[width=0.46\textwidth]{../figures/compact.png}}
-  \subfloat(c) {\includegraphics[width=0.46\textwidth]{../figures/concrete.png}} 
+consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campaigns.
 
- \caption{ Shows the three testrun locations in which the data sets were acquired. The locations were (a) an area of loose sand, (b) a gravel road with compact sand and (c) a parking lot with concrete paved surface. \label{fig:TestLocs}}
+\begin{figure}[!htb]
+    \begin{subfigure}[t]{0.33\textwidth}
+        \includegraphics[width=\textwidth]{../figures/unprepsand.png}
+        \caption{Loose Sand}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.33\textwidth}
+        \includegraphics[width=\textwidth]{../figures/compact.png}
+        \caption{Compact Sand}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.33\textwidth}
+        \includegraphics[width=\textwidth]{../figures/concrete.png}
+        \caption{Concrete}
+    \end{subfigure}
+ \caption{The test locations where the data sets were acquired.}
+ \label{fig:TestLocs}
 \end{figure}
+
 One testrun corresponds to the forward or backward driving for a defined distance. The test conditions were the same during all testruns. Such test conditions are:
 \begin{itemize}
 \item Fixed wheel configuration
