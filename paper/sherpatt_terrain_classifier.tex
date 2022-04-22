@@ -105,7 +105,11 @@ In this section background on the SherpaTT hardware, software architecture and t
 
 \begin{figure}[h]
 \centering
+<<<<<<< Updated upstream
 \includegraphics[width=0.6\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
+=======
+\includegraphics[width=0.5\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
+>>>>>>> Stashed changes
 \caption{\label{fig:SensorInputs}Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7): (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. Image Source: F. Cordes.}
 \end{figure}
 
@@ -255,6 +259,7 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 \subsection{Training Data}
 \todo[inline]{RD: TODO for @LK: Explain the datasets that were collected for the training and how division between training and test data was done}
 
+<<<<<<< Updated upstream
 An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campaigns.
 
 \begin{figure}[!htb]
@@ -274,6 +279,19 @@ An essential aspect to the classification performance is a consistent and large 
     \end{subfigure}
  \caption{The test locations where the data sets were acquired.}
  \label{fig:TestLocs}
+=======
+An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work
+consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campagnes.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/unprepsand.png}}%
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/compact.png}}%
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/concrete_v2.png}}%
+  \caption{Shows the three testrun locations in which the data sets were acquired. The locations were (a) an area of loose sand, (b) a gravel road with compact sand and (c) a parking lot with concrete paved surface. \label{fig:TestLocs}}%
+>>>>>>> Stashed changes
 \end{figure}
 
 One testrun corresponds to the forward or backward driving for a defined distance. The test conditions were the same during all testruns. Such test conditions are:
