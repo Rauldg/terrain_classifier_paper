@@ -55,6 +55,8 @@ Insights on its implementation, details on the architecture software sorrouding 
 The performance metrics show that the terrain classifier can run onboard along with the rest of the control software achieving high overall accuracy.
 \end{abstract}
 
+\todo[inline]{We have to limit the paper to 9 Pages}
+
 \section{Introduction}
 
 % Introduction main motivation and main idea of the paper explain in detail the implementation of a SMV-based proprioceptive terrain classifier
@@ -307,9 +309,43 @@ To visualize the achieved data separation the components of a LDA are plotted . 
 \subsection{Online tests}
 \todo[inline]{RD: TODO for @LK and @RD: Explain the tests that were performed outdoors}
 
-Field tests within DFKI's Space Exploration Hall and within a sandpit were conducted and allowed to provide comparable surface conditions as the traversed surface within the training data. The aim of the tests were to valide the plausible onboard calculation of features and the onboard classification performance. For this purpose, several traverses of SherpaTT were logged. It could be shown that the feature calculations are correct. The classification accuracy reached 87\% at well balanced recall and precision values of the classes. 
-Moreover, it could be demonstrated that the terrain classifier can be executed on SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully, whilst the rover is traversing the surface.
- 
+Two main tests were performed to validate the onboard calculation of features and classification performance.
+The tests consisted of traverses where the component was executing along with the rest of the control and perception sofware components. 
+The first of the test was perfomed indoors at the DFKI Robotics Innovation Center premises, depicted in Figure~\ref{fig:sh-tests}.
+During the test the classifier run at the pursued frequency of 100Hz.
+Here the classification performance is not considered representative since the power generator was not active and the hardest surface was not as hard as concrete. 
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../figures/spacehall.png}
+        \caption{Loose Sand Test}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../figures/spacehallconcrete.png}
+        \caption{Concrete Test}
+    \end{subfigure}
+    \caption{First onboard tests to validate the requirements on execution frequency}
+    \label{fig:sh-tests}
+\end{figure}
+
+The second test was during the final field tests of the ADE project \cite{ocon2021} in a sand mine in the north of Germany.
+These tests allowed to provide comparable surface traverse conditions as ones within the training data, since the power generator was activated.
+To check that the feaute calculations were correct, several traverses of SherpaTT were logged and checked for consistency. 
+The classification accuracy reached 87\% and a well balanced recall and precision values of the classes was achieved. 
+The underperformance in the field test conditions was due to the nature of the surface, which did not physically match any of the previously examined types. 
+The field test surface consisted of wet compact soil, which furthermore was getting attached to the wheels Figure~\ref{fig:finaltest}.
+Nevertheless, the classification was mostly as compact sand or concrete, the closest classes that the classifier was trained with.
+Moreover, it was demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully, whilst the rover is traversing.
+
+
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.9\textwidth]{../figures/sandmine.png}
+ \caption{The analog site where the classifier was tested had surfaces with features different to those seen in the training sets}
+ \label{fig:finaltest}
+\end{figure}
+
 
 \subsubsection{Computational Performance}
 \todo[inline]{RD: TODO for @LK Some clarifications and numbers on the performance checks done through software: wall\_time and cpu\_time}
