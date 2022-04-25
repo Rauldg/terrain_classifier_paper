@@ -11,11 +11,11 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage{authblk}
-%\usepackage{lmodern}
+\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{todonotes}
 \usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
-%\usepackage{caption}    % lets you define the fontsize of figure captions
+\usepackage{caption}    % lets you define the fontsize of figure captions
 \usepackage{subcaption}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
@@ -89,13 +89,7 @@ The three types represent distinct classes of surfaces characterized by its defo
 \subsection{SherpaTT}
 \todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
- SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
-
-
- 
- 
-%During the traverse the terrain classifier component uses proprioceptive sensor data -force torque sensors and joints- and dataproducts -acceleration estimates- to classify between the three terrain types.
-
+SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
 
 \begin{figure}[!htb]
     \begin{subfigure}[t]{0.44\textwidth}
@@ -106,34 +100,36 @@ The three types represent distinct classes of surfaces characterized by its defo
         \includegraphics[width=\textwidth]{../figures/MCS-Structure.pdf}
         \caption{\label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}}
     \end{subfigure}
-     \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7): (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque on SherpaTT. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
+     \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
 \end{figure}
 
 
 \subsection{Development Tools}
 
-The different software libraries that enable the control and perception mechanisms of SherpaTT exchange data and information through the Robotics Construction Toolkit (Rock) framework.
-The framework not only provides the wrapping mechanisms for the libraries and its communications but also the possibility to enforce realtime execution of the control loops when using a realtime supporting Linux kernel.
-Furthermore, Rock also provides a set of useful tools for the development, testing and evaluation of the software (e.g. runtime data exchange statistics and visualization). 
-For the implementation presented tools for data logging, replaying and memory-signature based data selection from datastreams have been employed.
+The software enabling the control and perception mechanisms of SherpaTT exchanges data and information through the Robotics Construction Toolkit (Rock) framework. 
+The framework not only provides wrapping mechanisms for the libraries and its communications, but also the possibility to enforce realtime execution of the control loops when using a realtime supporting Linux kernel. 
+Rock offers a set of useful tools for the development, testing and evaluation of the software libraries (e.g. runtime data exchange statistics and visualization). 
+In particular, tools for data logging, replaying and memory-signature based data selection from data streams have been employed in this implementation. 
 
 % Challenges
-The runtime data selection is on of the key features addressed by the middleware. 
-The problem consist in generating matrices of synchronous sample values for classification online from datastreams with multiple frequencies.
-Each datastream relevant for the classification contains in addition to the relevant data, data which has to be filtered out (e.g. timestamps) since it is irrelevant for the classification.
-To select the fields of the datatypes in the samples of the datastream the library \emph{type to vector}\footnote{Type to vector: \url{https://github.com/rock-data-processing/data_processing-orogen-type_to_vector}} is used.
+Data selection at runtime is on of the key features addressed by the middleware. 
+The problem consists in generating matrices of synchronous sample values for classification online from data streams with multiple frequencies.
+Each data stream relevant for the classification contains in addition to the relevant data, data which has to be filtered out (e.g. timestamps) since it is useless for the classification.
+The library \emph{type to vector}\footnote{Type to vector: \url{https://github.com/rock-data-processing/data_processing-orogen-type_to_vector}} is used to select the fields of the datatypes in the samples of the data stream. 
 It uses the type memory descriptions of the samples which contain relevant data to select from the incoming streams only the relevant attributes and stack them into the input matrix. 
-The synchronicity of the data is achieved using the timestamps with which the sensor data is marked at acquisition time.
-Since streams can have different update rates, but the input matrices need data from the different sources at the same rate, a strategy is needed to drop or interpolate data. 
 
-The Rock logging mechanism, was used to store in hard drive the sensor and fused datastreams while traversing for later use offline (i.e. data collection). 
-To process the logged data offline two different tools were employed: the rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data offline, so that it can be used for training and testing the classifier.
-\emph{pocolog to msgpack} converts the data from its rock binary representation to the almost universal \emph{msgpack} format.
-Furthermore \emph{pocolog to msgpack} also allows for the conversion of the logged data into python dataframes the widely used python data science and machine learning format. 
-Finally, the runtime inspection tools of Rock were employed to monitor the processing time of the classifier, the connections for the needed data and to visualize the coherence of all input datastreams. 
+The synchronicity of the data that is inputed to the classifier is achieved using the timestamps with which the sensor data is marked at acquisition time.
+Data streams can have different update rates, but the input matrices need data from multiple sources at the same rate, therefore a strategy is needed to drop or interpolate data. 
+
+The Rock logging mechanism, was used to store in hard drive the sensor and fused data streams while traversing for later use offline (i.e. data collection). 
+Two further tools are employed to process the logged data offline: rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data, so that it can be employed for training and testing the classifier.
+\emph{pocolog to msgpack} converts data from its rock binary representation to the almost universal \emph{msgpack} format.
+Moreover, \emph{pocolog to msgpack} allows for the conversion of logged data into python data frames, the widely used python data science and machine learning format. 
+Finally, the runtime inspection tools of Rock were utilized to monitor the processing time of the classifier, the connections between separate components and to visualize the coherence of all input data streams. 
 
 
 \subsection{Terrain Classifier}
+\todo[inline]{RD: for @RD Review this section}
 % Background and approach
 
 In order to classify three terrain types using proprioceptive sensor data, the supervised machine learning algorithm Support Vector Machine (SVM) is utilized. 
@@ -307,7 +303,10 @@ When generating a SVM model, the available data collection is divided into train
 %The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance. 
 
 To visualize the achieved data separation, the components of a Linear Discriminant Anaylsis \emph{LDA} are plotted. 
-Figure~\ref{fig:offline-class} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. In the LDA two Linear Discriminant components are represented on the axes, the components are formed from a reduction of the original feature set. The data samples of all available data sets are displayed in this representation as well as the decision boundary generated by a Support Vector Kernel (SVC). It is shown that the data of the terrain types can be separated for most of the samples.
+Figure~\ref{fig:offline-class} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. 
+In the LDA two Linear Discriminant components are represented on the axes, the components are formed from a reduction of the original feature set.
+The data samples of all available data sets are displayed in this representation as well as the decision boundary generated by a Support Vector Kernel (SVC). 
+It is shown that the data of the terrain types can be separated for most of the samples.
 
 The offline evaluation of the SVM classifier reached an accuracy of 93.97\% as shown in the confusion matrix in Figure~\ref{fig:offline-class}. A small portion of the collected data was taken when SherpaTT was not moving. The datapoints for which the wheel speed is zero were sliced out. Based on the sliced data the classification accuracy could be increased by 2\%.
 Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%.
@@ -379,7 +378,7 @@ Moreover, it was demonstrated that the terrain classifier can be executed onboar
 %\begin{figure}[!htb]
 %    \centering
 %        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
-%    \caption{The analog site where the classifier was tested}
+%    \caption{The analog site where the classifier was tested.}
 %    \label{fig:finaltest}
 %\end{figure}
 
@@ -390,7 +389,7 @@ Moreover, it was demonstrated that the terrain classifier can be executed onboar
 The execution time of the code was repeatedly measured. Since the computation is executed on a single thread, the execution time can be identified measuring the averaged wall time of the code execution. Table~\ref{table:compmeasurments} shows the results of these measurements. Since the execution time depends on the system on which the code executed, the computational system specification used to measure the performance need to resemble those of SherpaTT. Moreover, the resulting execution time depends
 on the threading of the operating system which is in this case the Linux distribution Ubuntu. The specification is a i7 processor with a CPU clock speed of 4.6 GHz. 
 
-\begin{table}[!htb]
+\begin{table}[htb!]
    \centering
     \begin{tabularx}{\columnwidth}{X|XXX}
         \textbf{Method:} & \multicolumn{3}{X}{Wall Time [$ms$]} \\
