@@ -47,7 +47,7 @@
 
 \begin{abstract}
 The implementation of a Support Vector Machine-Based terrain classifier for the hybrid wheeled-leg rover SherpaTT is presented in this paper. 
-The first phase of classification consists of statistically deriving physical characteristics of the traversed terrain from proprioceptive data (i.e. engineered features).
+The first phase of classification consists of deriving the physical characteristics of the traversed terrain statistically from proprioceptive data (i.e. engineered features).
 The features are then used by the classifier to distinguish between three different surface types: \emph{sand}, \emph{compact sand} and \emph{concrete}. 
 Based on previous offline studies \cite{Dimastrogiovanni2020} the terrain classifier has been integrated into the control architecture of the rover, as well as deployed and tested in analog environment. 
 The software runs completely on the onboard computer (OBC) of SherpaTT, embedded within the Robotics Construction Toolkit (Rock)\footnote{Rock: The Robot Construction Kit (\url{http://rock-robotics.org})} framework.
@@ -66,23 +66,19 @@ over flat terrain, it compromises drawbacks when exposed to demanding unstructur
 terrain. Especially in unstructured environments with steep, sandy slopes and boulders
 patches, wheeled systems reach their limitations \cite{kolvenbach2021}. In the past, several high slip and
 excessive sinkage events have been encountered with exploration rovers, which have severely
-disrupted the mission timeline \cite{gonzalez2018}. It took five weeks to free the Opportunity
+disrupted mission timelines \cite{gonzalez2018}. It took five weeks to free the Opportunity
 rover from sand in 2006 \cite{young2006} and rover trajectories need to be frequently adjusted to avoid
 challenging terrain \cite{arvidson2017}. The potentially worst situation occurred in 2009, when the
 Spirit rover got stuck in sand and was unable to recover, ultimately ending the mission
 \cite{webster2009}. 
 Terrain awareness, the correct modelling of transited surfaces and its classification is a key factor for reliable autonomous navigation. 
-Surface modelling can be used for navigation in order to avoid operation problems like the ones described before. 
-Moreover, terrain awareness may enhance navigation capabilities, if drive settings are adapted in accordance to terrain properties.
+Surface modelling can be used for navigation in order to avoid operation problems like the ones previously described. 
+Moreover, terrain awareness may enhance navigation capabilities, if drive settings are adapted in accordance to the 
+terrain properties.
 
-In this publication we introduce a software component, that is capable of classifying three different terrain types based on proprioceptive sensor data of SherpaTT is introduced. 
-The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT, such that it can be executed sufficiently fast during navigation. SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. 
-The novel software component has been implemented using the framework Rock.
-
-
-During navigation the terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
-The three types represent distinct classes of surfaces characterized by its deformability and friction properties, but are hard to identify with exteroceptive sensors since they are visually similar.
-In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed previous to the classification. 
+In this publication we introduce a software component capable of classifying three different terrain types based on the proprioceptive sensor data of SherpaTT. 
+The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT embedded into the Robotics Construction Toolkit (Rock) framework, such that it can be executed sufficiently fast during navigation. The terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
+The three types represent distinct classes of surfaces characterized by its deformability and friction properties. In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed previous to the classification. 
 \todo[inline]{RD: Some small state of the art here would be interesting presenting what others have done, not long but at least presenting some similar works}
 
 %Moreover, the classification performance achieved onboard SherpaTT was identified during tests on terrain that represent at least one of the three terrain type classes.
@@ -91,32 +87,28 @@ In order to achieve a better classification performance as well as a more in-dep
 
 % NOTE: This text is just a short introduction of what is coming in the next 3 subsections, if it is too repetitive we can remove it.
 
-SherpaTT is an hybrid wheeled-leg robot designed for operation in unstructured environemnts, it features terrain adaption based and trajectory control based on proprioception, and path planning and environment reconstruction through data fusion of extereoceptive and proprioceptive data.
-The implemented terrain classifier has been integrated and deployed within the control architecture of SherpaTT. 
-The control and perception software architecture is implemented in C++, for communication and other common robotic software operations it relies on the Robotic Construction Toolkit framework (Rock). 
-In this section background on the SherpaTT hardware, software architecture and the terrain classifier are provided.
-
-
 \subsection{SherpaTT}
 \todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
+ SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
+
+
+ 
+ 
 %During the traverse the terrain classifier component uses proprioceptive sensor data -force torque sensors and joints- and dataproducts -acceleration estimates- to classify between the three terrain types.
 
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
-\caption{\label{fig:SensorInputs}Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7): (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. Image Source: F. Cordes.}
+\begin{figure}[!htb]
+    \begin{subfigure}[t]{0.44\textwidth}
+        \includegraphics[width=\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
+        \caption{\label{fig:SensorInputs}Sensor and joint inputs to the Terrain Classifier}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../figures/MCS-Structure.pdf}
+        \caption{\label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}}
+    \end{subfigure}
+     \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7): (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque on SherpaTT. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
 \end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.7\textwidth]{../figures/MCS-Structure.pdf}
-\caption{\label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}.}
-\end{figure}
-
-
-
 
 
 \subsection{Development Tools}
@@ -258,23 +250,22 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campaigns.
 
 \begin{figure}[!htb]
-    \begin{subfigure}[t]{0.3\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \includegraphics[width=\textwidth]{../figures/unprepsand.png}
         \caption{Loose Sand}
     \end{subfigure}
-    \qquad
-    \begin{subfigure}[t]{0.3\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \includegraphics[width=\textwidth]{../figures/compact.png}
         \caption{Compact Sand}
     \end{subfigure}
-    \qquad
-    \begin{subfigure}[t]{0.3\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \includegraphics[width=\textwidth]{../figures/concrete_v2.png}
         \caption{Concrete}
     \end{subfigure}
  \caption{The test locations where the data sets were acquired.}
  \label{fig:TestLocs}
 \end{figure}
+
 
  
 One testrun corresponds to the forward or backward driving for a defined distance. The test conditions were the same during all testruns. Such test conditions are:
@@ -336,15 +327,19 @@ Here the classification performance is not considered representative since the p
 
 \begin{figure}[!htb]
     \centering
-    \begin{subfigure}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \includegraphics[width=\textwidth]{../figures/spacehall.png}
-        \caption{Loose Sand Test}
+        \caption{Loose Sand Training}
     \end{subfigure}
-    \begin{subfigure}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \includegraphics[width=\textwidth]{../figures/spacehallconcrete.png}
-        \caption{Concrete Test}
+        \caption{Concrete Training}
     \end{subfigure}
-    \caption{First onboard tests to validate the requirements on execution frequency}
+    \begin{subfigure}[t]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{../figures/sandmine_v2.jpg}
+        \caption{Test Site}
+    \end{subfigure}
+    \caption{Onboard requirement validation of execution frequencies for loose sand (a) and concrete (b). The analog test site (c), where the classifier was finally tested.}
     \label{fig:sh-tests}
 \end{figure}
 
@@ -358,20 +353,16 @@ Nevertheless, the classification was mostly as compact sand or concrete, the clo
 Moreover, it was demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully, whilst the rover is traversing.
 
 
-\begin{figure}[!htb]
- \centering
- \includegraphics[width=0.7\textwidth]{../figures/sandmine.png}
- \caption{The analog site where the classifier was tested had surfaces with features different to those seen in the training sets}
- \label{fig:finaltest}
-\end{figure}
-
-
 \subsubsection{Computational Performance}
 \todo[inline]{RD: TODO for @LK Some clarifications and numbers on the performance checks done through software: wall\_time and cpu\_time}
 
 
 %The C++ calculations and terrain classifications were executed in sufficient time in parallel to the rest of SherpaTT's Motion Control System, on a single thread, using a i7 processor with a CPU clock speed of 4.6 GHz.
-The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table 4.3 shows the results of these measurements. 
+The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table 4.3 shows the results of these measurements. Since the execution time depends on the system on which the code executed, the computational system specification need to resemble those of SherpaTT. Moreover, the resulting execution time depends
+on the threading of the operating system which is in this case the Linux distribution Ubuntu. The specification is a i7 processor with a CPU clock speed of 4.6 GHz. 
+
+As the averaged execution time of the C++ library is 20.3 $ms$ this could potentially lead to the delay of two \texttt{updateHook()} triggerings which are done every 10 $ms$, and hence the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
+
 
 \begin{table}[htb!]
    \centering
@@ -389,10 +380,6 @@ The implementation foresees to repeatedly measure the execution time of the code
     \end{tabularx}	
 \end{table}
 
-Since the execution time depends on the system on which the code executed, the computational system specification need to resemble those of SherpaTT. Moreover, the resulting execution time depends
-on the threading of the operating system which is in this case the Linux distribution Ubuntu. The specification is a i7 processor with a CPU clock speed of 4.6 GHz. 
-
-As the averaged execution time of the C++ library is 20.3 $ms$ this could potentially lead to the delay of two \texttt{updateHook()} triggerings which are done every 10 $ms$, and hence the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
 
 \section{Conclusions}
 \todo[inline]{RD: TODO for @RD Wrap up and outlook}
