@@ -11,18 +11,17 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage{authblk}
-\usepackage{lmodern}
+%\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{todonotes}
 \usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
-\usepackage{caption}    % lets you define the fontsize of figure captions
+%\usepackage{caption}    % lets you define the fontsize of figure captions
 \usepackage{subcaption}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 %added by LK
 \usepackage{textgreek}
 \usepackage{ltablex} %have centerised tables
-%\usepackage{subfig}
 
 \renewcommand\Authfont{\fontsize{9}{10}\selectfont}
 \renewcommand\Affilfont{\fontsize{8}{9}\itshape}
@@ -135,75 +134,87 @@ Finally, the runtime inspection tools of Rock were employed to monitor the proce
 
 
 \subsection{Terrain Classifier}
-\todo[inline]{RD: for @RD Review this section}
 % Background and approach
 
-In order to classify three terrain types by sensor data, the supervised machine learning algorithm Support Vector Machine (SVM) is utilized. Therefore, the presented terrain classifier represents an applied SVM. Applying such algorithm requires to train a SVM classification model that can consequentially be used to classify an n-dimensional datapoint.
-The model's dimensions are called features. In order to achieve maximum separation between the data classes the optimal features need to be identified. Therefore, a feature selection process allows to identify the most critical set of input data to the classifier. 
+In order to classify three terrain types using proprioceptive sensor data, the supervised machine learning algorithm Support Vector Machine (SVM) is utilized. 
+Applying such algorithm requires the training of a SVM classification model that is later used to classify n-dimensional datapoints.
+The model's dimensions are called features and they correspond to the inputs that are used for guessing the class. 
+SVM separates the data among classes, during training the boundaries among the different classes are adapted. 
+The more separation that is achieved between the classes, the clearer the later classification of datapoints is expected. 
+In order to the achieve maximum separation between the data classes, the optimal features, computed from the sensor data, need to be identified. 
+In other words, a feature selection process allows to identify the most critical set of input data to the classifier. 
 %features differs in performance  
 %feature selection
 
-\subsubsection{Model Training}
-Generally, SVM aims to separate data of multiple classes. In geometrical terms it divides the data with a n-dimensional hyperplane, the so called decision boundary. The hyperplane parameter, or so called weights, are iteratively optimized to allow the largest distance between the hyperplane and the nearest datapoints which eventually are the support vectors.  
-By changing the dot-product calculation, which is referred to as the kernel trick, within the underlying geometrical condition various correlations of the data's dimensions can be recognized. Example correlation can be obtained through polynomial or Gaussian radial based function. However, the most simple is linear correlation.
-The generated set of weights is referred to as classification model and the generation process as such is referred to as training.\cite{kuhr2021}
+\paragraph*{Model Training}
+%\subsubsection{Model Training}
+Generally, SVM aims to separate data of multiple classes. 
+In geometrical terms it divides the data with a n-dimensional hyperplane, the so called decision boundary. 
+The hyperplane parameters, or so called weights, are iteratively optimized to allow the largest distance between the hyperplane and the nearest datapoints which eventually are the support vectors.  
+By changing the dot-product calculation, which is referred to as the kernel trick, within the underlying geometrical condition various correlations of the data's dimensions can be recognized. 
+Example correlation can be obtained through polynomial or Gaussian radial based function.
+However, the most simple is linear correlation.
+The generated set of weights is referred to as \emph{classification model} and the generation process as such is referred to as \emph{training}.%\cite{kuhr2021}
 %OvA multiclass strategy
 
 
 
-\subsubsection{Model Testing}
-Before using the model, its' classification performance needs to be measured using labeled data. This testing process obtains the performance measures which can be visualized within so called confusion matrices. A description of a three class confusion matrix is depicted in Figure~\ref{fig:CMdescrpit}.\cite{kuhr2021}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{../figures/CM_Description.pdf}
-\caption{\label{fig:CMdescrpit}Description of the used three class confusion matrix to visualize the three performance measures precision, recall and accuracy.\cite{kuhr2021}}
-\end{figure}
+%\subsubsection{Model Testing}
+\paragraph*{Model Testing}
+Before deploying the model, its' classification performance can be measured using labeled data.
+This testing process obtains the performance measures are tipically visualized within \emph{confusion matrices}. 
+A description of the three class confusion matrix which is used to present the results in this work is depicted in Figure~\ref{fig:CMdescrpit}
+The three evaluated aspects or performance measures are \emph{precision}, \emph{recall} and \emph{accuracy}.
+The process done by the classifier of processing a sample and providing a classification label is also referred as prediction.
 \begin{itemize}
-\item Accuracy $\frac{T\textsubscript{overall}}{(T+F)\textsubscript{overall}}$: Out of all samples tested, how many times does the classifier classify the correct class
-\item Recall $\frac{T\textsubscript{class}}{(T+F)\textsubscript{actual class}}$: Out of all samples that belong to an actual class does the classifier classify the correct class 
-\item Precision $\frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}$: Out of all classifications that the classifier assigns to one class does the classifier classify correctly
+\item \textbf{Accuracy} measures the overall percentage of correctly classified samples: $\frac{T\textsubscript{overall}}{(T+F)\textsubscript{overall}}$ 
+\item \textbf{Recall} measures for each set of samples of each class the percentage that was correctly classified: $\frac{T\textsubscript{class}}{(T+F)\textsubscript{actual class}}$%: Out of all samples that belong to an actual class does the classifier classify the correct class 
+\item \textbf{Precision} measures for each set of predictions per class the percentage of predictions that were correct: $\frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}$%: Out of all classifications that the classifier assigns to one class does the classifier classify correctly
 \end{itemize}
+Where $T$ stands for True (correct) and $F$ for False (wrong).
 
-\subsubsection{Feature Selection}
-For computational reasons and simplicity, it is desired to reduce the model's dimensionality by selecting the most critical features for the  classification task. 
-Within the selection process, a large set of statistical moments of the features is considered. The features represent direct sensor parameter as well as physical parameter such as the mechanical and electrical power, three friction coefficients and the wheel speed deviation of each wheel in relation to the others. The thereby used proprioceptive sensor parameter are listed in Table~\ref{fig:features1}.
+%\begin{figure}[!htb]
+%    \centering
+%    \includegraphics[width=\textwidth]{../figures/CM_Description.pdf}
+%    \caption{\label{fig:CMdescrpit} Confusion matrix used to visualize the performance measures, \emph{Precision}, \emph{Recall} and \emph{Accuracy}, of the classifier.\cite{kuhr2021}}
+%\end{figure}
 
- In the following the formulas to calculate the physical parameter are presented:
-\begin{itemize}
-\item Mechanical Power: $ P\textsubscript{m} = T\textsubscript{y} * w $
-\item Electrical Power: $ P\textsubscript{e} = V* I * d\textsubscript{pwm}$
-\item Friction Coefficient 1: $\mu \textsubscript{1} = \frac{F\textsubscript{x}}{F\textsubscript{z}} $
-\item Friction Coefficient 2: $\mu \textsubscript{2} = \frac{T\textsubscript{y}}{R * F\textsubscript{z}}$ 
-\item Friction Coefficient 3: $\mu \textsubscript{3} = \frac{I}{R * F\textsubscript{z}}$
-\item Speed Deviation:	 $\Delta w = |w-\overline{w}| $
-\end{itemize}
-$R$ represents SherpaTT's wheel radius which is $0.2085m$.
-In this case, the statistical moments mean, variance, skewness and kurtosis are calculated. 
-To reduce the dimensionality of inputs to the classifier, the most critical features for terrain classification are identified by using the WB index and the Pearson Coefficient as detailed in \cite{Dimastrogiovanni2020}. 
-The list of selected features as well as which statistical moment is used is shown in Table~\ref{fig:optiF}.
+
+%\subsubsection{Feature Selection}
+\paragraph*{Feature Selection}
+For computational reasons as well as for simplicity, it is desired to reduce the dimensionality by selecting the most critical features for the  classification task.
+Within the selection process, a large set of statistical moments of the features are considered. 
+The features can represent direct sensor parameter as well as physical parameters such as the mechanical and electrical power, friction coefficients and the wheel speed deviation of each wheel in relation to the others. 
+The proprioceptive sensor data used to calculate the features are listed in Table~\ref{table:features1} which is based on \cite{Dimastrogiovanni2020}.
+The input data is received from the Motion Control System (MCS), Joint Deployment (JD), Sensors Deployment (SD). 
+All forces and torques are represented within the Body Coordinate System (BCS).
 
 \begin{table}[htb!]
    \centering
-    \caption{Acquired physical proprioceptive data from datastreams: MCS Logger (MCS), Joint Deployment Logger (JDL), Sensors Deployment Logger (SDL). The forces and torques are within the Body Coordinate System (BCS).\cite{Dimastrogiovanni2020}\label{fig:features1}}
     \begin{tabularx}{\columnwidth}{XXX}
     \textbf{Symbol}& \textbf{Feature} & \textbf{Datastream}  \\
     \hline
       $F\textsubscript{x}$ & Longitudinal Force	 &  MCS\\
       $F\textsubscript{z}$& Vertical Force	 &MCS \\ 
       $T\textsubscript{y}$& Drive Torque around y-axis	   &MCS\\ 
-      $I $& Motor Current	  & JDL\\ 
-      $V$ & Voltage 	   &JDL\\ 
-      $d\textsubscript{pwm}$&  Dutycycle	   &JDL\\ 
-      $w$& Angular Wheel Velocity 	 &JDL \\
-      $a\textsubscript{x}$& Acceleration X	  &SDL\\ 
-      $a\textsubscript{z}$&  Acceleration Z	   &SDL\\ 
+      $I $& Motor Current	  & JD\\ 
+      $V$ & Voltage 	   &JD\\ 
+      $d\textsubscript{pwm}$&  Dutycycle	   &JD\\ 
+      $w$& Angular Wheel Velocity 	 &JD \\
+      $a\textsubscript{x}$& Acceleration X	  &SD\\ 
+      $a\textsubscript{z}$&  Acceleration Z	   &SD\\ 
     \end{tabularx}
+    \caption{Proprioceptive inputs and supplying datastream}
+    \label{table:features1}
 \end{table}
 
-\begin{table}[htb!]
+Using the inputs in Table~\ref{table:features1}, the physical statistical features listed in Table~\ref{table:features2} are calculated for each patch of terrain to be classified.
+The statistical moments mean, variance, skewness and kurtosis were evaluated initially. 
+A selection of the most useful features for the classification, to reduce dimensionality was done using the WB index and the Pearson Coefficient.
+Both the equations for the calculation of the physical features as well as the details on the selection process of the most critical features are detailed in \cite{Dimastrogiovanni2020}.
+
+\begin{table}[!htb]
    \centering
-    \caption{Optimal feature set for the classification of terrain types by SherpaTT. The set includes the statistical calculation of mean (M) and standard deviation (SD) per terrain patch.\label{fig:optiF}}
     \begin{tabularx}{\columnwidth}{XXX}
     \textbf{Statistical} & \textbf{Feature}  & \textbf{Symbol} \\
     \hline
@@ -220,66 +231,75 @@ The list of selected features as well as which statistical moment is used is sho
      M	    &  Angular Wheel Velocity	     &  w      \\ 
      SD    	&  Speed Deviation	 & $\Delta$w\\ 
     \end{tabularx}	
+    \caption{Optimal feature set for the classification of terrain types by SherpaTT. The set includes the statistical calculation of mean (M) and standard deviation (SD) per terrain patch.\label{table:features2}}
 \end{table}
 
-\subsubsection{Linear Discriminant Analysis}
+%\subsubsection{Linear Discriminant Analysis}
 %copy paste from thesis
-Besides speeding up the training and reducing the required amount of data during runtime, the reduction of feature dimensionality can help for data visualization. For this purpose, Linear Discriminant Analysis (LDA) reduces the number of dimensions down to three or two. This makes it possible to plot a high-dimensional data set on a graph and through this visually gain information about patterns. 
-
-To achieve this, LDA identifies the axis that accounts for the largest amount of variance of different class's data. It thereby represents a similar method as the Principle Component Analysis (PCA) with the difference that LDA recognizes the class labels when identifying the variance. As a next step, LDA identifies the axis that lays orthogonal to the first one. Therefore, the second axis accounts for the largest amount of remaining variance. The maximum number of orthogonals, linear discriminants, depends on the number of dimensions within the data set.\cite{kuhr2021}
-
-
+%\paragraph*{Linear Discriminant Analysis}
+%Besides speeding up the training and reducing the required amount of data during runtime, the reduction of feature dimensionality can help for data visualization. 
+%Linear Discriminant Analysis (LDA) reduces the number of dimensions down to the three or two more representative. 
+%This makes it possible to plot a high-dimensional data set on a graph and through this visually gain information about patterns. 
+%
+%To achieve this, LDA identifies the axis that accounts for the largest amount of variance of different class's data. 
+%It thereby represents a similar method as the Principle Component Analysis (PCA) with the difference that LDA recognizes the class labels when identifying the variance. 
+%As a next step, LDA identifies the axis that lays orthogonal to the first one. 
+%Therefore, the second axis accounts for the largest amount of remaining variance. 
+%The maximum number of orthogonals, linear discriminants, depends on the number of dimensions within the data set.\cite{kuhr2021}
+%
 
 \section{Implementation}
-\todo[inline]{RD: for @RD Review this section}
-In this particular case, the classification takes place at a frequency of 100 $Hz$ which is also the highest input frequency (joint values), streams which have lower frequency, provide the same data to several input matrices. At a traverse speed of 0.1 $m/s$, one classification result per traversed 10 $cm$ is retrieved. 
 
-Furthermore the classification results need to be available at a fast enough pace to allow other onboard components take advantage of the results (e.g. to improve navigation) and to ensure that the classification results correspond to the currently traversed surface. 
+The classifier control loop has a target frequency of 100 $Hzs$, matching the highest input frequency (joint status). 
+To address the issue of other streams having lower frequency, the simple solution of using the same data as input for several entries in the classifier input matrices was taken. 
+The classification is performed on matrices composed from information generated from 100 samples. 
+Thus a classification os generated every second.
+Since the speed of the rover was 0.1 $m/s$, the resolution of the categorized patches of terrain will be of 10 $cm$ length.  
+
+
+The classification results need to be available at a fast enough pace to allow other onboard components take advantage of the results (e.g. to improve navigation) and to ensure that the classification results correspond to the currently traversed surface. 
 Likewise, the loss of data samples due to full queues on the input of the processing components must be avoided. 
 
-The diagram in Figure~\ref{fig:overview} presents the implementation approach of the terrain classifier in Rock.
+The diagram in Figure~\ref{fig:overview} presents the implementation approach of the terrain classifier in Rock. 
+The first step which needs to be done efficiently is the extraction from the data sample of the relevant fields of data which is done using the \emph{type to vector} Rock tool.
+At each execution of the \emph{updateHook} (every 0.01) new data is stacked in the input matrix.
+Every 100 \emph{updateHooks} an input matrix is finished and the component triggers the computation of the physical and statisticall features and finally the classification, also named prediction.
+The output of the classification as well as the of the feature computation are delivered to the calling component which retrives the values through its output ports. 
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
-\caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
-\end{figure}
+%\begin{figure}[htb!]
+%\centering
+%\includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
+%\caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
+%\end{figure}
 
 \subsection{Training Data}
 
-An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campaigns.
+An essential aspect to the classification performance is a consistent and large data collection available for training. 
+The data collection available for this implementation consists of a dataset composed of traverses that were acquired by remote commanding the rover over the three examined terrain types. 
+Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the data collection.
 
-\begin{figure}[!htb]
-    \begin{subfigure}[t]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{../figures/unprepsand.png}
-        \caption{Loose Sand}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{../figures/compact.png}
-        \caption{Compact Sand}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{../figures/concrete_v2.png}
-        \caption{Concrete}
-    \end{subfigure}
- \caption{The test locations where the data sets were acquired.}
- \label{fig:TestLocs}
-\end{figure}
+%\begin{figure}[!htb]
+%    \begin{subfigure}[t]{0.32\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/unprepsand.png}
+%        \caption{Loose Sand}
+%    \end{subfigure}
+%    \begin{subfigure}[t]{0.32\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/compact.png}
+%        \caption{Compact Sand}
+%    \end{subfigure}
+%    \begin{subfigure}[t]{0.32\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/concrete_v2.png}
+%        \caption{Concrete}
+%    \end{subfigure}
+% \caption{The test locations where the data sets were acquired.}
+% \label{fig:TestLocs}
+%\end{figure}
 
+One traverse in the dataset corresponds to the forward and backward driving of 10 $m$. The following conditions were the same during all traverses: 1) Fixed wheel configuration, 2)Surfaces with no inclination, 3) Traverse speed 0.1 $m/s$, 4) Straight traverses and 5) Electric power generator is activated.
 
- 
-One testrun corresponds to the forward or backward driving for a defined distance. The test conditions were the same during all testruns. Such test conditions are:
-\begin{itemize}
-\item Fixed wheel configuration
-\item Surface of no inclination
-\item Traverse speed 0.1 $m/s$
-\item Straight traverses/ no turns
-\item Power generator is on
-\item Traverse 10 $m$ per testrun
-\end{itemize}
-
-In terms of quantity, the data collection consists of 2200 training samples for each of the 76 features. Regarding data balance, the data gathered from the terrain type sand represent 28\% of the data and the concrete and compact sand represent 36\% each. 
-When generating a SVM model the available data collection one of the data sets of each terrain traverse is used for testing and the others are used for training. This gives a relation of about 25/75.
+In terms of quantity, the data collection consists of 2200 training samples for each of the 76 features. 
+Regarding data balance, the data gathered from the terrain type sand represent 28\% of the data and the concrete and compact sand represent 36\% each. 
+When generating a SVM model, the available data collection is divided into training and testing sets. One of the data sets of each terrain traverse is used for testing and the others are used for training. This gives a relation of about 25\%/75\%.
 
 \section{Evaluation}
 \subsection{Offline Classification Performance}
@@ -290,8 +310,7 @@ To visualize the achieved data separation, the components of a Linear Discrimina
 Figure~\ref{fig:offline-class} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. In the LDA two Linear Discriminant components are represented on the axes, the components are formed from a reduction of the original feature set. The data samples of all available data sets are displayed in this representation as well as the decision boundary generated by a Support Vector Kernel (SVC). It is shown that the data of the terrain types can be separated for most of the samples.
 
 The offline evaluation of the SVM classifier reached an accuracy of 93.97\% as shown in the confusion matrix in Figure~\ref{fig:offline-class}. A small portion of the collected data was taken when SherpaTT was not moving. The datapoints for which the wheel speed is zero were sliced out. Based on the sliced data the classification accuracy could be increased by 2\%.
-
-Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%
+Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%.
 
 %\begin{figure}[h]
 %\centering
@@ -307,19 +326,19 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
 % \label{fig:lda}
 %\end{figure}
 
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.48\textwidth}
-        \includegraphics[width=\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
-        \caption{Linear Discriminant Analysis of the dataset}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.48\textwidth}
-        \includegraphics[trim={0 0 0 0},clip,width=\textwidth]{../figures/confusionmatrix_Train.png}
-        \caption{Confusion Matrix of the terrain classifier}
-    \end{subfigure}
-    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
-    \label{fig:offline-class}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%    \begin{subfigure}[t]{0.48\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
+%        \caption{Linear Discriminant Analysis of the dataset}
+%    \end{subfigure}
+%    \begin{subfigure}[t]{0.48\textwidth}
+%        \includegraphics[trim={0 0 0 0},clip,width=\textwidth]{../figures/confusionmatrix_Train.png}
+%        \caption{Confusion Matrix of the terrain classifier}
+%    \end{subfigure}
+%    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
+%    \label{fig:offline-class}
+%\end{figure}
 
 % Evaluation
 
@@ -334,19 +353,19 @@ The first of the test was indoors at the DFKI Robotics Innovation Center premise
 During the test, the classifier ran at the pursued frequency of 100Hz.
 Nevertheless, the classification performance of these tests is not considered representative, since the power generator was not active and the hardest surface was not as firm as concrete. 
 
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{../figures/spacehall.png}
-        \caption{Loose Sand Training}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{../figures/spacehallconcrete.png}
-        \caption{Concrete Training}
-    \end{subfigure}
-    \caption{Onboard requirement validation of execution frequencies for loose sand (a) and concrete (b).}
-    \label{fig:sh-tests}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%    \begin{subfigure}[t]{0.4\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/spacehall.png}
+%        \caption{Loose Sand Training}
+%    \end{subfigure}
+%    \begin{subfigure}[t]{0.4\textwidth}
+%        \includegraphics[width=\textwidth]{../figures/spacehallconcrete.png}
+%        \caption{Concrete Training}
+%    \end{subfigure}
+%    \caption{Onboard requirement validation of execution frequencies for loose sand (a) and concrete (b).}
+%    \label{fig:sh-tests}
+%\end{figure}
 
 The second test took place during the final field tests of the ADE project \cite{ocon2021} in a sand mine in the north of Germany.
 These tests allowed to provide comparable surface traverse conditions as ones within the training data, since the power generator was activated.
@@ -357,12 +376,12 @@ The field test surface consisted of wet compact soil, which furthermore was gett
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, the closest types the classifier was trained with.
 Moreover, it was demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses.
 
-\begin{figure}[!htb]
-    \centering
-        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
-    \caption{The analog test site where the classifier was tested.}
-    \label{fig:finaltest}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
+%    \caption{The analog site where the classifier was tested}
+%    \label{fig:finaltest}
+%\end{figure}
 
 
 \subsection{Computational Performance}
@@ -396,7 +415,7 @@ As the averaged execution time of the C++ classification library is 20.3 $ms$ th
 The presented work explained the implementation of a terrain classifier which has been deployed and tested onboard of the hybrid locomotion robotic platform SherpaTT.
 It has been shown that the SVM classifier provides useful results and can be run onboard along the rest of the software components.
 
-The classification results on the datasets collected along with the training data yield a 93\% of overall accuracy. 
+The classification results on the test data collected along with the training data yield a 93\% of overall accuracy. 
 These results have been improved using Deep Learning techniques as shown in \cite{ugenti2021}. 
 Thus, in the near future we aim to integrate and test this approach onboard of the system.
 During field tests a new type of surface was encountered which did not corresponded to any known class by the classifier. 
