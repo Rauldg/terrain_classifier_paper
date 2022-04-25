@@ -47,11 +47,7 @@
 
 \begin{abstract}
 The implementation of a Support Vector Machine-Based terrain classifier for the hybrid wheeled-leg rover SherpaTT is presented in this paper. 
-<<<<<<< Updated upstream
 The first phase of classification consists of deriving the physical characteristics of the traversed terrain statistically from proprioceptive data (i.e. engineered features).
-=======
-The first phase of classification consists of statistically deriving physical characteristics of the traversed terrain from proprioceptive data (i.e. engineered features).
->>>>>>> Stashed changes
 The features are then used by the classifier to distinguish between three different surface types: \emph{sand}, \emph{compact sand} and \emph{concrete}. 
 Based on previous offline studies \cite{Dimastrogiovanni2020} the terrain classifier has been integrated into the control architecture of the rover, as well as deployed and tested in analog environment. 
 The software runs completely on the onboard computer (OBC) of SherpaTT, embedded within the Robotics Construction Toolkit (Rock)\footnote{Rock: The Robot Construction Kit (\url{http://rock-robotics.org})} framework.
@@ -70,30 +66,15 @@ over flat terrain, it compromises drawbacks when exposed to demanding unstructur
 terrain. Especially in unstructured environments with steep, sandy slopes and boulders
 patches, wheeled systems reach their limitations \cite{kolvenbach2021}. In the past, several high slip and
 excessive sinkage events have been encountered with exploration rovers, which have severely
-<<<<<<< Updated upstream
 disrupted mission timelines \cite{gonzalez2018}. It took five weeks to free the Opportunity
-=======
-disrupted the mission timeline \cite{gonzalez2018}. It took five weeks to free the Opportunity
->>>>>>> Stashed changes
 rover from sand in 2006 \cite{young2006} and rover trajectories need to be frequently adjusted to avoid
 challenging terrain \cite{arvidson2017}. The potentially worst situation occurred in 2009, when the
 Spirit rover got stuck in sand and was unable to recover, ultimately ending the mission
 \cite{webster2009}. 
 Terrain awareness, the correct modelling of transited surfaces and its classification is a key factor for reliable autonomous navigation. 
-<<<<<<< Updated upstream
 Surface modelling can be used for navigation in order to avoid operation problems like the ones previously described. 
 Moreover, terrain awareness may enhance navigation capabilities, if drive settings are adapted in accordance to the 
 terrain properties.
-=======
-Surface modelling can be used for navigation in order to avoid operation problems like the ones described before. 
-Moreover, terrain awareness may enhance navigation capabilities, if drive settings are adapted in accordance to terrain properties.
-
-In this publication we introduce a software component, that is capable of classifying three different terrain types based on proprioceptive sensor data of SherpaTT is introduced. 
-The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT, such that it can be executed sufficiently fast during navigation. SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. 
-The novel software component has been implemented using the framework Rock.
-
->>>>>>> Stashed changes
-
 In this publication we introduce a software component capable of classifying three different terrain types based on the proprioceptive sensor data of SherpaTT. 
 The component uses a Support Vector Machine (SVM) algorithm \cite{vapnik1992,cristianini2000} in its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT embedded into the Robotics Construction Toolkit (Rock) framework, such that it can be executed sufficiently fast during navigation. The terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
 The three types represent distinct classes of surfaces characterized by its deformability and friction properties. In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed previous to the classification. 
@@ -108,15 +89,8 @@ The three types represent distinct classes of surfaces characterized by its defo
 \subsection{SherpaTT}
 \todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
- SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
+SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
 
-
- 
- 
-%During the traverse the terrain classifier component uses proprioceptive sensor data -force torque sensors and joints- and dataproducts -acceleration estimates- to classify between the three terrain types.
-
-
-<<<<<<< Updated upstream
 \begin{figure}[!htb]
     \begin{subfigure}[t]{0.44\textwidth}
         \includegraphics[width=\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
@@ -129,23 +103,6 @@ The three types represent distinct classes of surfaces characterized by its defo
      \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
 \end{figure}
 
-=======
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
-\caption{\label{fig:SensorInputs}Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7): (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. Image Source: F. Cordes.}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.7\textwidth]{../figures/MCS-Structure.pdf}
-\caption{\label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}.}
-\end{figure}
-
-
-
-
->>>>>>> Stashed changes
 
 \subsection{Development Tools}
 
@@ -183,8 +140,6 @@ By changing the dot-product calculation, which is also known as the kernel trick
 The generated set of weights is referred to as classification model and the generation process as such is referred to as training.\cite{kuhr2021}
 %OvA multiclass strategy
 
-
-
 \subsubsection{Model Testing}
 Before applying the model, its' classification performance needs to be measured using labeled data. This testing process obtains performance measures, which can be visualized within confusion matrices. A description of a three class confusion matrix is depicted in Figure~\ref{fig:CMdescrpit}.\cite{kuhr2021}
 
@@ -194,11 +149,11 @@ Before applying the model, its' classification performance needs to be measured 
 \caption{\label{fig:CMdescrpit}Description of the applied three class confusion matrix to visualize the performance measures: precision, recall and accuracy.\cite{kuhr2021}}
 \end{figure}
 \begin{itemize}
-\item Accuracy: The ratio of correct classified samples, out of all tested samples. 
+\item Accuracy: The ratio of correct classified samples out of all tested samples. 
 
 $\frac{T\textsubscript{overall}}{(T+F)\textsubscript{overall}}$
 
-\item Recall : The ratio of correct classified samples, out of all samples that belong to the same class.
+\item Recall : The ratio of correct classified samples out of all samples that belong to the same class.
 
 $\frac{T\textsubscript{class}}{(T+F)\textsubscript{actual class}}$
 
@@ -210,9 +165,8 @@ $\frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}$
 
 \subsubsection{Feature Selection}
 For computational reasons and simplicity, it is desired to reduce the model's dimensionality by selecting the most critical features for the  classification task. 
-Within the selection process, a large set of statistical moments of the features is considered. The features represent direct sensor parameter as well as physical parameter such as the mechanical and electrical power, three friction coefficients and the wheel speed deviation of each wheel in relation to the others. The thereby used proprioceptive sensor parameter are listed in Table~\ref{fig:features1}.
+Within the selection process, a large set of statistical moments of the features is considered. The features represent direct sensor parameter as well as physical parameter such as the mechanical and electrical power, three friction coefficients and the wheel speed deviation of each wheel in relation to the others. The thereby used proprioceptive sensor parameter are listed in Table~\ref{fig:features1}. In the following the formulas to calculate the physical parameter are presented:
 
- In the following the formulas to calculate the physical parameter are presented:
 \begin{itemize}
 \item Mechanical Power: $ P\textsubscript{m} = T\textsubscript{y} * w $
 \item Electrical Power: $ P\textsubscript{e} = V* I * d\textsubscript{pwm}$
@@ -221,6 +175,7 @@ Within the selection process, a large set of statistical moments of the features
 \item Friction Coefficient 3: $\mu \textsubscript{3} = \frac{I}{R * F\textsubscript{z}}$
 \item Speed Deviation:	 $\Delta w = |w-\overline{w}| $
 \end{itemize}
+
 $R$ represents SherpaTT's wheel radius which is $0.2085m$.
 In this case, the statistical moments mean, variance, skewness and kurtosis are calculated. 
 To reduce the dimensionality of inputs to the classifier, the most critical features for terrain classification are identified by using the WB index and the Pearson Coefficient as detailed in \cite{Dimastrogiovanni2020}. 
@@ -271,8 +226,6 @@ Besides speeding up the training and reducing the required amount of data during
 
 To achieve this, LDA identifies the axis that accounts for the largest amount of variance of different class's data. It thereby represents a similar method as the Principle Component Analysis (PCA) with the difference that LDA recognizes the class labels when identifying the variance. As a next step, LDA identifies the axis that lays orthogonal to the first one. Therefore, the second axis accounts for the largest amount of remaining variance. The maximum number of orthogonals, linear discriminants, depends on the number of dimensions within the data set.\cite{kuhr2021}
 
-
-
 \section{Implementation}
 \todo[inline]{RD: for @RD Review this section}
 In this particular case, the classification takes place at a frequency of 100 $Hz$ which is also the highest input frequency (joint values), streams which have lower frequency, provide the same data to several input matrices. At a traverse speed of 0.1 $m/s$, one classification result per traversed 10 $cm$ is retrieved. 
@@ -290,7 +243,6 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 
 \subsection{Training Data}
 
-<<<<<<< Updated upstream
 An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campaigns.
 
 \begin{figure}[!htb]
@@ -306,27 +258,9 @@ An essential aspect to the classification performance is a consistent and large 
         \includegraphics[width=\textwidth]{../figures/concrete_v2.png}
         \caption{Concrete}
     \end{subfigure}
- \caption{The test locations where the data sets were acquired.}
- \label{fig:TestLocs}
+ \caption{Shows the three testrun locations in which the data sets were acquired. The locations were (a) an area of loose sand, (b) a gravel road with compact sand and (c) a parking lot with concrete paved surface. \label{fig:TestLocs}}
 \end{figure}
 
-
- 
-=======
-An essential aspect to the classification performance is a consistent and large data collection available for training. The data collection that is available for the implementation presented within this work
-consists of data sets that were acquired from testruns on the three examined terrain types. Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the test campagnes.
-
-\begin{figure}[!htb]
-  \centering
-  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/unprepsand.png}}%
-  \qquad
-  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/compact.png}}%
-  \qquad
-  \subfloat[][]{\includegraphics[width=0.3\linewidth]{../figures/concrete_v2.png}}%
-  \caption{Shows the three testrun locations in which the data sets were acquired. The locations were (a) an area of loose sand, (b) a gravel road with compact sand and (c) a parking lot with concrete paved surface. \label{fig:TestLocs}}%
-\end{figure}
-
->>>>>>> Stashed changes
 One testrun corresponds to the forward or backward driving for a defined distance. The test conditions were the same during all testruns. Such test conditions are:
 \begin{itemize}
 \item Fixed wheel configuration
@@ -343,61 +277,32 @@ When generating a SVM model the available data collection one of the data sets o
 \section{Evaluation}
 \subsection{Offline Classification Performance}
 %\todo[inline]{RD: TODO for @LK: Provide the results that were collected when testing offline}
+
+%A complete analysis of performance was not possible, because the traversed terrain during the field tests did not closly match the previously trained terrain classes. Nevertheless, the software shows good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
+
 %The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance. 
 
 To visualize the achieved data separation, the components of a Linear Discriminant Anaylsis \emph{LDA} are plotted. 
-Figure~\ref{fig:offline-class} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. In the LDA two Linear Discriminant components are represented on the axes, the components are formed from a reduction of the original feature set. The data samples of all available data sets are displayed in this representation as well as the decision boundary generated by a Support Vector Kernel (SVC). It is shown that the data of the terrain types can be separated for most of the samples.
+Figure~\ref{fig:offline-class} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. In the LDA two Linear Discriminant components are represented on the axes, the components are formed from a reduction of the original feature set. The data samples of all available data sets are displayed in this representation as well as the decision boundary generated by a Support Vector Kernel (SVC). It is shown that the data of the terrain types can be separated for most of the samples. The areas of different terrain types are highlighted by the corresponding colors.
 
 The offline evaluation of the SVM classifier reached an accuracy of 93.97\% as shown in the confusion matrix in Figure~\ref{fig:offline-class}. A small portion of the collected data was taken when SherpaTT was not moving. The datapoints for which the wheel speed is zero were sliced out. Based on the sliced data the classification accuracy could be increased by 2\%.
 
 Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.6\textwidth]{../figures/confusionmatrix_Train.png}
-%\caption{\label{fig:confusionmatrix} Shows the performance of the SVM model. Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%}
-%\end{figure}
-
-
-%\begin{figure}[!htb]
-% \centering
-% \includegraphics[width=0.7\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
-% \caption{The areas of different terrain types as classified by the SVM are highlighted by the corresponding colors, the points correspond to data samples.}
-% \label{fig:lda}
-%\end{figure}
-
-<<<<<<< Updated upstream
 \begin{figure}[!htb]
     \centering
-    \begin{subfigure}[t]{0.48\textwidth}
-        \includegraphics[width=\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
-        \caption{Linear Discriminant Analysis of the dataset}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[b]{0.55\textwidth}
         \includegraphics[trim={0 0 0 0},clip,width=\textwidth]{../figures/confusionmatrix_Train.png}
         \caption{Confusion Matrix of the terrain classifier}
     \end{subfigure}
-    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
+    \begin{subfigure}[b]{0.44\textwidth}
+        \includegraphics[width=\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand_v2.png}
+        \caption{Linear Discriminant Analysis of the dataset}
+    \end{subfigure}
+    \caption{(a) Performance of the SVM model, the overall accuracy yields 93.97\%. (b) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors.}
     \label{fig:offline-class}
-=======
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{../figures/confusionmatrix_Train.png}
-\caption{\label{fig:confusionmatrix} Shows the performance of the SVM model. Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%}
 \end{figure}
-
-To visualize the achieved data separation the components of a LDA are plotted . Figure~\ref{fig:lda} shows the resulting plot highlighting the decision boundary of the used linear SVM kernel as well. It is shown that the data of the terrain types can be separated for most of the samples.
-\begin{figure}[!htb]
- \centering
- \includegraphics[width=0.7\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
- \caption{Shows a plot with the two Linear Discriminant (components) on the axes. The dimensions of the original feature set is reduced to two. The data samples of all available data sets are displayed. Also the decision boundary generated by a Support Vector Kernel (SVC) is displayed. The areas of different terrain types are highlighted by the corresponding colors. }
- \label{fig:lda}
->>>>>>> Stashed changes
-\end{figure}
-
-% Evaluation
-
-%A complete analysis of performance was not possible, because the traversed terrain during the field tests did not closly match the previously trained terrain classes. Nevertheless, the software shows good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
+    
 
 \subsection{Onboard tests}
 
@@ -440,19 +345,13 @@ Moreover, it was demonstrated that the terrain classifier can be executed onboar
 
 
 \subsection{Computational Performance}
+The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table~\ref{table:compmeasurments} shows the results of these measurements. The resulting execution time depends on the threading of the operating system, which in this case is the Linux distribution Ubuntu 18.04 lTS. The operating system runs on a i7 processor with a CPU clock speed of 4.6 GHz. 
 
-%The C++ calculations and terrain classifications were executed in sufficient time in parallel to the rest of SherpaTT's Motion Control System, on a single thread, using a i7 processor with a CPU clock speed of 4.6 GHz.
-<<<<<<< Updated upstream
-The execution time of the code was repeatedly measured. Since the computation is executed on a single thread, the execution time can be identified measuring the averaged wall time of the code execution. Table~\ref{table:compmeasurments} shows the results of these measurements. Since the execution time depends on the system on which the code executed, the computational system specification used to measure the performance need to resemble those of SherpaTT. Moreover, the resulting execution time depends
-on the threading of the operating system which is in this case the Linux distribution Ubuntu. The specification is a i7 processor with a CPU clock speed of 4.6 GHz. 
-
-\begin{table}[!htb]
-=======
-The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table 4.3 shows the results of these measurements. 
+As the averaged execution time of the C++ classification library is 20.3 $ms$ this could lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
 
 \begin{table}[htb!]
->>>>>>> Stashed changes
    \centering
+    \caption{Wall time measurements of the methods of the C++ classification library.}
     \begin{tabularx}{\columnwidth}{X|XXX}
         \textbf{Method:} & \multicolumn{3}{X}{Wall Time [$ms$]} \\
         &min.&max.&avg.\\
@@ -464,17 +363,8 @@ The implementation foresees to repeatedly measure the execution time of the code
         \hline
         \textbf{overall:}             & 15.3 & 30.1 &20.3  \\
     \end{tabularx}	
-    \caption{Wall time measurements of the methods of the C++ classification library.}
     \label{table:compmeasurments}
 \end{table}
-<<<<<<< Updated upstream
-=======
-
-Since the execution time depends on the system on which the code executed, the computational system specification need to resemble those of SherpaTT. Moreover, the resulting execution time depends
-on the threading of the operating system which is in this case the Linux distribution Ubuntu. The specification is a i7 processor with a CPU clock speed of 4.6 GHz. 
->>>>>>> Stashed changes
-
-As the averaged execution time of the C++ classification library is 20.3 $ms$ this could lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
 
 
 \section{Conclusions}
