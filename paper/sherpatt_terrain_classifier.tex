@@ -13,9 +13,9 @@
 \usepackage{authblk}
 \usepackage{lmodern}
 \usepackage{graphicx}
-\usepackage{todonotes}
-\usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
-\usepackage{caption}    % lets you define the fontsize of figure captions
+%\usepackage{todonotes}
+%\usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
+%\usepackage{caption}    % lets you define the fontsize of figure captions
 \usepackage{subcaption}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
@@ -45,7 +45,7 @@
 \captionsetup[figure]{font=footnotesize}
 
 \begin{abstract}
-The implementation of a Support Vector Machine-Based terrain classifier for the hybrid wheeled-leg rover SherpaTT is presented in this paper. 
+The implementation of a Support Vector Machine-Based terrain classifier for the hybrid locomotion rover SherpaTT is presented. 
 The first phase of classification consists of deriving the physical characteristics of the traversed terrain statistically from proprioceptive data (i.e. engineered features).
 The features are then used by the classifier to distinguish between three different surface types: \emph{sand}, \emph{compact sand} and \emph{concrete}. 
 Based on previous offline studies \cite{Dimastrogiovanni2020} the terrain classifier has been integrated into the control architecture of the rover, as well as deployed and tested in analog environment. 
@@ -87,20 +87,23 @@ The three types represent distinct classes of surfaces characterized by its defo
 % NOTE: This text is just a short introduction of what is coming in the next 3 subsections, if it is too repetitive we can remove it.
 
 \subsection{SherpaTT}
-\todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
 SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
 
 \begin{figure}[!htb]
-    \begin{subfigure}[t]{0.44\textwidth}
-        \includegraphics[width=\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
-        \caption{\label{fig:SensorInputs}Sensor and joint inputs to the Terrain Classifier}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.55\textwidth}
-        \includegraphics[width=\textwidth]{../figures/MCS-Structure.pdf}
-        \caption{\label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}}
-    \end{subfigure}
-     \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
+   \subcaptionbox{
+       \label{fig:SensorInputs}Sensor and joint inputs to the Terrain Classifier
+       }
+       {
+           \includegraphics[width=0.45\textwidth]{../figures/terrain_classifier_sensor_inputs.png}
+       }
+   \subcaptionbox{
+       \label{fig:MCS}Motion Control System of SherpaTT \cite{cordes_phd_2018}
+       }
+       {
+           \includegraphics[width=0.5\textwidth]{../figures/MCS-Structure.pdf}
+       }
+   \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
 \end{figure}
 
 
@@ -129,7 +132,6 @@ Finally, the runtime inspection tools of Rock were utilized to monitor the proce
 
 
 \subsection{Terrain Classifier}
-\todo[inline]{RD: for @RD Review this section}
 % Background and approach
 
 In order to classify three terrain types using proprioceptive sensor data, the supervised machine learning algorithm Support Vector Machine (SVM) is utilized. 
@@ -169,11 +171,11 @@ The process done by the classifier of processing a sample and providing a classi
 \end{itemize}
 Where $T$ stands for True (correct) and $F$ for False (wrong).
 
-%\begin{figure}[!htb]
-%    \centering
-%    \includegraphics[width=\textwidth]{../figures/CM_Description.pdf}
-%    \caption{\label{fig:CMdescrpit} Confusion matrix used to visualize the performance measures, \emph{Precision}, \emph{Recall} and \emph{Accuracy}, of the classifier.\cite{kuhr2021}}
-%\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../figures/CM_Description.pdf}
+    \caption{\label{fig:CMdescrpit} Confusion matrix used to visualize the performance measures, \emph{Precision}, \emph{Recall} and \emph{Accuracy}, of the classifier.\cite{kuhr2021}}
+\end{figure}
 
 
 %\subsubsection{Feature Selection}
@@ -249,8 +251,9 @@ Both the equations for the calculation of the physical features as well as the d
 The classifier control loop has a target frequency of 100 $Hzs$, matching the highest input frequency (joint status). 
 To address the issue of other streams having lower frequency, the simple solution of using the same data as input for several entries in the classifier input matrices was taken. 
 The classification is performed on matrices composed from information generated from 100 samples. 
-Thus a classification os generated every second.
-Since the speed of the rover was 0.1 $m/s$, the resolution of the categorized patches of terrain will be of 10 $cm$ length.  
+Thus a classification is generated every second.
+In other words, every 100 samples, a matrix input for the classifier is completed and a new classification is done, this happens every 1 $s$.
+Since the speed of the rover was 0.1 $m/s$, the resolution of the categorized patches of terrain is 10 $cm$ long.  
 
 
 The classification results need to be available at a fast enough pace to allow other onboard components take advantage of the results (e.g. to improve navigation) and to ensure that the classification results correspond to the currently traversed surface. 
@@ -262,11 +265,11 @@ At each execution of the \emph{updateHook} (every 0.01) new data is stacked in t
 Every 100 \emph{updateHooks} an input matrix is finished and the component triggers the computation of the physical and statisticall features and finally the classification, also named prediction.
 The output of the classification as well as the of the feature computation are delivered to the calling component which retrives the values through its output ports. 
 
-%\begin{figure}[htb!]
-%\centering
-%\includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
-%\caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
-%\end{figure}
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
+    \caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
+\end{figure}
 
 \subsection{Training Data}
 
@@ -274,22 +277,20 @@ An essential aspect to the classification performance is a consistent and large 
 The data collection available for this implementation consists of a dataset composed of traverses that were acquired by remote commanding the rover over the three examined terrain types. 
 Figure~\ref{fig:TestLocs} shows images of the traversed terrain during the data collection.
 
-%\begin{figure}[!htb]
-%    \begin{subfigure}[t]{0.32\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/unprepsand.png}
-%        \caption{Loose Sand}
-%    \end{subfigure}
-%    \begin{subfigure}[t]{0.32\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/compact.png}
-%        \caption{Compact Sand}
-%    \end{subfigure}
-%    \begin{subfigure}[t]{0.32\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/concrete_v2.png}
-%        \caption{Concrete}
-%    \end{subfigure}
-% \caption{The test locations where the data sets were acquired.}
-% \label{fig:TestLocs}
-%\end{figure}
+\begin{figure}[!htb]
+   \centering
+    \subcaptionbox
+        {Loose Sand}
+        {\includegraphics[width=0.32\textwidth]{../figures/unprepsand.png}}
+    \subcaptionbox
+        {Compact Sand}
+        {\includegraphics[width=0.32\textwidth]{../figures/compact.png}}
+    \subcaptionbox
+        {Concrete}
+        {\includegraphics[width=0.32\textwidth]{../figures/concrete_v2.png}}
+    \caption{The test locations where the data sets were acquired.}
+    \label{fig:TestLocs}
+\end{figure}
 
 One traverse in the dataset corresponds to the forward and backward driving of 10 $m$. The following conditions were the same during all traverses: 1) Fixed wheel configuration, 2)Surfaces with no inclination, 3) Traverse speed 0.1 $m/s$, 4) Straight traverses and 5) Electric power generator is activated.
 
@@ -312,12 +313,12 @@ The offline evaluation of the SVM classifier reached an accuracy of 93.97\% as s
 Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%.
 
 %\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.6\textwidth]{../figures/confusionmatrix_Train.png}
-%\caption{\label{fig:confusionmatrix} Shows the performance of the SVM model. Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%}
+%    \centering
+%    \includegraphics[width=0.6\textwidth]{../figures/confusionmatrix_Train.png}
+%    \caption{\label{fig:confusionmatrix} Shows the performance of the SVM model. Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%}
 %\end{figure}
-
-
+%
+%
 %\begin{figure}[!htb]
 % \centering
 % \includegraphics[width=0.7\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
@@ -325,19 +326,17 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
 % \label{fig:lda}
 %\end{figure}
 
-%\begin{figure}[!htb]
-%    \centering
-%    \begin{subfigure}[t]{0.48\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}
-%        \caption{Linear Discriminant Analysis of the dataset}
-%    \end{subfigure}
-%    \begin{subfigure}[t]{0.48\textwidth}
-%        \includegraphics[trim={0 0 0 0},clip,width=\textwidth]{../figures/confusionmatrix_Train.png}
-%        \caption{Confusion Matrix of the terrain classifier}
-%    \end{subfigure}
-%    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
-%    \label{fig:offline-class}
-%\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \subcaptionbox
+        {Linear Discriminant Analysis of the dataset}
+        {\includegraphics[width=0.48\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}}
+    \subcaptionbox
+        {Confusion Matrix of the terrain classifier}
+        {\includegraphics[width=0.48\textwidth]{../figures/confusionmatrix_Train.png}}
+    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
+    \label{fig:offline-class}
+\end{figure}
 
 % Evaluation
 
@@ -351,19 +350,19 @@ The first test took place indoors at the DFKI Robotics Innovation Center premise
 Throughout the trial, the classifier ran at the pursued frequency of 100Hz. 
 Nevertheless, the classification performance of these tests is not representative, because the power generator was not active and the hardest surface was not as firm as concrete. 
 
-%\begin{figure}[!htb]
-%    \centering
-%    \begin{subfigure}[t]{0.4\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/spacehall.png}
-%        \caption{Loose Sand Training}
-%    \end{subfigure}
-%    \begin{subfigure}[t]{0.4\textwidth}
-%        \includegraphics[width=\textwidth]{../figures/spacehallconcrete.png}
-%        \caption{Concrete Training}
-%    \end{subfigure}
-%    \caption{Onboard requirement validation of execution frequencies for loose sand (a) and concrete (b).}
-%    \label{fig:sh-tests}
-%\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \subcaptionbox
+        {Loose Sand Tests}
+        {
+        \includegraphics[width=0.4\textwidth]{../figures/spacehall.png}
+        }
+    \subcaptionbox
+        {Concrete Tests}
+        {\includegraphics[width=0.4\textwidth]{../figures/spacehallconcrete.png}}
+    \caption{Validation of the onboard classifier execution frequencies.}
+    \label{fig:sh-tests}
+\end{figure}
 
 The second test took place during the final field tests of the ADE project \cite{ocon2021} in a sand mine in the north of Germany.
 These tests allowed to provide comparable surface traverse conditions as ones within the training data, since the power generator was activated.
@@ -374,12 +373,12 @@ The field test surface consisted of wet compact soil, which furthermore was gett
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, the closest types the classifier was trained with.
 Moreover, it was demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses.
 
-%\begin{figure}[!htb]
-%    \centering
-%        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
-%    \caption{The analog site where the classifier was tested.}
-%    \label{fig:finaltest}
-%\end{figure}
+\begin{figure}[!htb]
+    \centering
+        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
+    \caption{The analog site where the classifier was tested.}
+    \label{fig:finaltest}
+\end{figure}
 
 
 \subsection{Computational Performance}
@@ -428,7 +427,7 @@ The terrain type is also to be taken into account when setting the costs for the
 For instance, paths traversing a slope of certain inclination can be traversed if the surface is composed of a material with high friction but not if it has low.
 
 
-\FloatBarrier
+%\FloatBarrier
 
 \bibliographystyle{alpha}
 \bibliography{sherpatt_terrain_classifier.bib}
