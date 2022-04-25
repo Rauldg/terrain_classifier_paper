@@ -313,7 +313,7 @@ The field trials also demonstrated that the terrain classifier can be executed o
     \label{fig:sh-tests}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[!h]
     \centering
         \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
     \caption{The analog test site where the classifier was tested.}
@@ -322,9 +322,7 @@ The field trials also demonstrated that the terrain classifier can be executed o
 
 
 \subsection{Computational Performance}
-The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table~\ref{table:compmeasurments} shows the results of these measurements. The resulting execution time depends on the threading of the operating system, which in this case is the Linux distribution Ubuntu 18.04 lTS. The operating system runs on a i7 processor with a CPU clock speed of 4.6 GHz. 
-
-As the averaged execution time of the C++ classification library is 20.3 $ms$ this could lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
+The implementation foresees to repeatedly measure the execution time of the code. In the case of this implementation the computation is executed on a single thread. Consequentially, the execution time can be identified measuring the averaged wall time of the code execution. Table~\ref{table:compmeasurments} shows the results of these measurements. The resulting execution time depends on the threading of the operating system, which in this case is the Linux distribution Ubuntu 18.04 LTS. The software runs on a i7 processor with a CPU clock speed of 4.6 GHz. As the averaged execution time of the C++ classification library is 20.3 $ms$, this could lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
 
 \begin{table}[htb!]
    \centering
@@ -346,25 +344,25 @@ As the averaged execution time of the C++ classification library is 20.3 $ms$ th
 
 \section{Conclusions}
 
-The presented work explained the implementation of a terrain classifier which has been deployed and tested onboard of the hybrid locomotion robotic platform SherpaTT.
+The presented work explains the implementation of a terrain classifier, which has been deployed and tested onboard of the hybrid locomotion robotic platform SherpaTT.
 It has been shown that the SVM classifier provides useful results and can be run onboard along the rest of the software components.
 
 The classification results on the datasets collected along with the training data yield a 93\% of overall accuracy. 
 These results have been improved using Deep Learning techniques as shown in \cite{ugenti2021}. 
 Thus, in the near future we aim to integrate and test this approach onboard of the system.
-During field tests a new type of surface was encountered which did not corresponded to any known class by the classifier. 
+During field tests a new type of surface was encountered that did not corresponded to any known class by the classifier. 
 Nevertheless the two closest surface types were selected, which we interpret as a robust response.
 In the future, this could be improved by combining the approach with an unsupervised technique to automatically identify anomalies and potentially generate new types of surfaces.
 
 % Outlook applications
 The applications of the terrain classifier will include contributions to the environment modelling while traversing and the use of the terrain class to adapt various navigation settings.
-Besides the final class of terrain, the module computes physical properties of the environment which are useful environment information. 
-These features can be used for instance to predict errors in the localization (e.g. due to correspondent different fiction coefficients) or to generate more relistic contact simulation that can be used to improve the control of the system.
-The terrain type is also to be taken into account when setting the costs for the potential paths traversing the corresponding regions. 
-For instance, paths traversing a slope of certain inclination can be traversed if the surface is composed of a material with high friction but not if it has low.
+Besides the final class of terrain, the module computes physical properties of the surface and yields valuable environmental information. 
+These features can be used in future missions to predict errors in the localization, e.g. due to different friction coefficients or to generate more realistic contact simulations to further improve the control of the system.
+The terrain type has to be taken into account, when setting the costs for the potential paths traversing the corresponding regions. 
+For instance, paths over a slope of certain inclination may be traversed if the surface is composed of a material with high friction, but the same task could become very challenging if the friction coefficient on that surface is low. \\
 
 
-\FloatBarrier
+\clearpage
 
 \bibliographystyle{alpha}
 \bibliography{sherpatt_terrain_classifier.bib}
