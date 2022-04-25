@@ -136,8 +136,8 @@ The model's dimensions are called features. In order to achieve maximum separati
 
 \subsubsection{Model Training}
 Generally SVMs aim to separate data of multiple classes. In geometrical terms it divides the data with a n-dimensional hyperplane, the so called decision boundary. The hyperplane parameter, also referred to as weights, are iteratively optimized to allow the largest distance between the hyperplane and the nearest datapoints, which eventually are the support vectors.  
-By changing the dot-product calculation, which is also known as the kernel trick, within the underlying geometrical condition, various correlations of the data's dimensions can be recognized. Correlation can be obtained through polynomial or Gaussian radial based functions, however the most simple is linear correlation.
-The generated set of weights is referred to as classification model and the generation process as such is referred to as training.\cite{kuhr2021}
+By changing the dot-product calculation, which is also known as the kernel trick, within the underlying geometrical condition, various correlations of the data's dimensions can be recognized. Correlation can be obtained through polynomial or Gaussian radial based functions or simply via linear correlation.
+The generated set of weights is referred to as classification model and the generation process is referred to as training.\cite{kuhr2021}
 %OvA multiclass strategy
 
 \subsubsection{Model Testing}
@@ -164,24 +164,10 @@ $\frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}$
 \end{itemize}
 
 \subsubsection{Feature Selection}
-For computational reasons and simplicity, it is desired to reduce the model's dimensionality by selecting the most critical features for the  classification task. 
-Within the selection process, a large set of statistical moments of the features is considered. The features represent direct sensor parameter as well as physical parameter such as the mechanical and electrical power, three friction coefficients and the wheel speed deviation of each wheel in relation to the others. The thereby used proprioceptive sensor parameter are listed in Table~\ref{fig:features1}. In the following the formulas to calculate the physical parameter are presented:
+For computational reasons and simplicity, it is desired to reduce the model's dimensionality by selecting the most critical features for the  classification task. A large set of statistical moments of the features is considered within the selection process. The features represent direct sensor parameter as well as physical parameter such as mechanical and electrical power, friction coefficients and wheel speed deviations of each wheel in relation to the others. The hereby used sensor parameter are listed in Table~\ref{fig:features1}. In this case, the statistical moments mean, variance, skewness and kurtosis are calculated. In order to reduce the dimensionality of inputs to the classifier, the most critical features for terrain classification are identified by using the WB index and the Pearson Coefficient as detailed in \cite{Dimastrogiovanni2020}. 
+The list of selected features alongside with the used statistical moment is shown in Table~\ref{fig:optiF}. 
 
-\begin{itemize}
-\item Mechanical Power: $ P\textsubscript{m} = T\textsubscript{y} * w $
-\item Electrical Power: $ P\textsubscript{e} = V* I * d\textsubscript{pwm}$
-\item Friction Coefficient 1: $\mu \textsubscript{1} = \frac{F\textsubscript{x}}{F\textsubscript{z}} $
-\item Friction Coefficient 2: $\mu \textsubscript{2} = \frac{T\textsubscript{y}}{R * F\textsubscript{z}}$ 
-\item Friction Coefficient 3: $\mu \textsubscript{3} = \frac{I}{R * F\textsubscript{z}}$
-\item Speed Deviation:	 $\Delta w = |w-\overline{w}| $
-\end{itemize}
-
-$R$ represents SherpaTT's wheel radius which is $0.2085m$.
-In this case, the statistical moments mean, variance, skewness and kurtosis are calculated. 
-To reduce the dimensionality of inputs to the classifier, the most critical features for terrain classification are identified by using the WB index and the Pearson Coefficient as detailed in \cite{Dimastrogiovanni2020}. 
-The list of selected features as well as which statistical moment is used is shown in Table~\ref{fig:optiF}.
-
-\begin{table}[htb!]
+\begin{table}[h!]
    \centering
     \caption{Acquired physical proprioceptive data from datastreams: MCS Logger (MCS), Joint Deployment Logger (JDL), Sensors Deployment Logger (SDL). The forces and torques are within the Body Coordinate System (BCS).\cite{Dimastrogiovanni2020}\label{fig:features1}}
     \begin{tabularx}{\columnwidth}{XXX}
@@ -199,7 +185,7 @@ The list of selected features as well as which statistical moment is used is sho
     \end{tabularx}
 \end{table}
 
-\begin{table}[htb!]
+\begin{table}[h!]
    \centering
     \caption{Optimal feature set for the classification of terrain types by SherpaTT. The set includes the statistical calculation of mean (M) and standard deviation (SD) per terrain patch.\label{fig:optiF}}
     \begin{tabularx}{\columnwidth}{XXX}
@@ -219,6 +205,23 @@ The list of selected features as well as which statistical moment is used is sho
      SD    	&  Speed Deviation	 & $\Delta$w\\ 
     \end{tabularx}	
 \end{table}
+
+The formulas to calculate the physical parameter are as follows:
+
+  \begin{equation*}
+    \begin{aligned}[c]
+        & \text{Mechanical Power:} && P\textsubscript{m} = T\textsubscript{y} w \\
+        & \text{Electrical Power:} && P\textsubscript{e} = V I d\textsubscript{pwm} \\
+        & \text{Friction Coefficient 1:} && \mu \textsubscript{1} = \frac{F\textsubscript{x}}{F\textsubscript{z}} \\
+        & \text{Friction Coefficient 2:} && \mu \textsubscript{2} = \frac{T\textsubscript{y}}{R  F\textsubscript{z}} \\ 
+        & \text{Friction Coefficient 3:} && \mu \textsubscript{3} = \frac{I}{R F\textsubscript{z}} \\
+        & \text{Speed Deviation:} && \Delta w = |w-\overline{w}| 
+   \end{aligned}
+ \end{equation*}
+
+$R$ represents SherpaTT's wheel radius which corresponds to $0.2085m$.
+
+
 
 \subsubsection{Linear Discriminant Analysis}
 %copy paste from thesis
