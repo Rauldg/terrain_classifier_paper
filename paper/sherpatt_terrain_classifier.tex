@@ -124,11 +124,11 @@ It uses the type memory descriptions of the samples which contain relevant data 
 The synchronicity of the data that is inputed to the classifier is achieved using the timestamps with which the sensor data is marked at acquisition time.
 Data streams can have different update rates, but the input matrices need data from multiple sources at the same rate, therefore a strategy is needed to drop or interpolate data. 
 
-The Rock logging mechanism, was used to store in hard drive the sensor and fused data streams while traversing for later use offline (i.e. data collection). 
+The Rock logging mechanism, is used to store in hard drive the sensor and fused data streams while traversing for later use offline (i.e. data collection). 
 Two further tools are employed to process the logged data offline: rock-replay for testing the runtime functionality on the development environment and \emph{pocolog to msgpack}\footnote{Pocolog to Msgpack: \url{https://github.com/rock-core/tools-pocolog2msgpack}} to select and prepare the data, so that it can be employed for training and testing the classifier.
 \emph{pocolog to msgpack} converts data from its rock binary representation to the almost universal \emph{msgpack} format.
 Moreover, \emph{pocolog to msgpack} allows for the conversion of logged data into python data frames, the widely used python data science and machine learning format. 
-Finally, the runtime inspection tools of Rock were utilized to monitor the processing time of the classifier, the connections between separate components and to visualize the coherence of all input data streams. 
+Finally, the runtime inspection tools of Rock were utilized to monitor the processing time of the classifier, the connections between separate software components and to visualize the coherence of all input data streams. 
 
 
 \subsection{Terrain Classifier}
