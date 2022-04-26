@@ -340,7 +340,7 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
     \label{fig:offline-class}
 \end{figure}
 
-\FloatBarrier
+%\FloatBarrier
 % Evaluation
 
 %A complete analysis of performance was not possible, because the traversed terrain during the field tests did not closly match the previously trained terrain classes. Nevertheless, the software shows good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
@@ -354,7 +354,7 @@ The first of the test was indoors at the DFKI Robotics Innovation Center premise
 During the test, the classifier ran at the pursued frequency of 100Hz.
 Nevertheless, the classification performance of these tests is not considered representative, since the power generator was not active and the hardest surface was not as firm as concrete. 
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
     \centering
     \subcaptionbox
         {Loose Sand Tests}
@@ -378,13 +378,14 @@ Due to rainfalls, the surface consisted of wet compact soil, which sticked to th
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
 The field trials also demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
     \centering
         \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
     \caption{The analog site where the classifier was tested.}
     \label{fig:finaltest}
 \end{figure}
 
+\FloatBarrier
 
 \subsection{Computational Performance}
 
