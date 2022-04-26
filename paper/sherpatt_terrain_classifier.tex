@@ -87,9 +87,14 @@ The three types represent distinct classes of surfaces characterized by its defo
 % NOTE: This text is just a short introduction of what is coming in the next 3 subsections, if it is too repetitive we can remove it.
 
 \subsection{SherpaTT}
-\todo[inline]{RD: TODO for @JB description of SherpaTT and the software that is involved in the control and perception. Particularly that what is needed to provide the inputs that the terrain classifier uses}
 
-SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data.
+SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data. The placement of the sensors, that provide propriocepitve input data to the terrain classifier on SherpaTT, is shown in Figure~\ref{fig:SensorInputs}. The purpose of the high mobility platform is to access scientifically interesting areas on planetary bodies in a safe, fast and autonomous way. Besides the enhanced locomotion system, SherpaTT benefits of its’ advanced motion control system (MCS). The MCS guarantees controlled articulation of the complex kinematic suspension system at any time. It is implemented as a middle-layer between high-level processes and the low-level hardware layer, shown in Figure ~\ref{fig:MCS}. The layer architecture of SherpaTT can be described as such \cite{cordes2018}:
+
+\begin{itemize}
+    \item \textbf{High-Level:} Is the autonomy level of the robot’s control system. Resembles for example navigation, mapping or path planning software. Related behaviors are independent of the physical states of the robot.
+    \item \textbf{Middle-Layer:} Resembles an abstraction of the physical robot. Handles command inputs from the operator or high-level processes and calculates according joint movements. It reacts to sensor inputs and thereby assures system stability for example by monitoring the position of the Center of Gravity (CoG) to avoid tip-over.
+    \item \textbf{Low-Level:} Is close to the physical hardware. This comprises sensors and local joint controllers for example PID controllers for position or velocity control of an individual joint. Besides providing commands to the drive actuators, the MCS design aims to mimick passive suspension with controllable properties.
+\end{itemize}
 
 \begin{figure}[!htb]
     \begin{subfigure}[t]{0.44\textwidth}
