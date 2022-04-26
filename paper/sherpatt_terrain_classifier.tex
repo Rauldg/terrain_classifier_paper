@@ -14,7 +14,7 @@
 \usepackage{lmodern}
 \usepackage{graphicx}
 %\usepackage{todonotes}
-%\usepackage{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
+\usepackage[section]{placeins}   % helps to keeps figures at the same page or within the /FloatBarrier
 %\usepackage{caption}    % lets you define the fontsize of figure captions
 \usepackage{subcaption}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -43,6 +43,7 @@
 \date{}
 \maketitle
 \captionsetup[figure]{font=footnotesize}
+\captionsetup[table]{font=footnotesize}
 
 \begin{abstract}
 The implementation of a Support Vector Machine-Based terrain classifier for the hybrid locomotion rover SherpaTT is presented. 
@@ -90,13 +91,7 @@ The three types represent distinct classes of surfaces characterized by its defo
 
 SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension system. Its locomotion control system provides the basis for advanced locomotive capabilities with the ability to adapt to different terrain types \cite{cordes2018}. The rover is designed for operation in unstructured environments. It features terrain adaption based on force torque sensors inputs, trajectory control and path planning as well as environment reconstruction through data fusion of extereoceptive and proprioceptive data. The placement of the sensors, that provide propriocepitve input data to the terrain classifier on SherpaTT, is shown in Figure~\ref{fig:SensorInputs}. The purpose of the high mobility platform is to access scientifically interesting areas on planetary bodies in a safe, fast and autonomous way. Besides the enhanced locomotion system, SherpaTT benefits of its’ advanced motion control system (MCS). The MCS guarantees controlled articulation of the complex kinematic suspension system at any time. It is implemented as a middle-layer between high-level processes and the low-level hardware layer, shown in Figure ~\ref{fig:MCS}. The layer architecture of SherpaTT can be described as such \cite{cordes2018}:
 
-\begin{itemize}
-    \item \textbf{High-Level:} Is the autonomy level of the robot’s control system. Resembles for example navigation, mapping or path planning software. Related behaviors are independent of the physical states of the robot.
-    \item \textbf{Middle-Layer:} Resembles an abstraction of the physical robot. Handles command inputs from the operator or high-level processes and calculates according joint movements. It reacts to sensor inputs and thereby assures system stability for example by monitoring the position of the Center of Gravity (CoG) to avoid tip-over.
-    \item \textbf{Low-Level:} Is close to the physical hardware. This comprises sensors and local joint controllers for example PID controllers for position or velocity control of an individual joint. Besides providing commands to the drive actuators, the MCS design aims to mimick passive suspension with controllable properties.
-\end{itemize}
-
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
    \subcaptionbox{
        \label{fig:SensorInputs}Sensor and joint inputs to the Terrain Classifier
        }
@@ -111,6 +106,14 @@ SherpaTT is a hybrid wheeled-leg rover with an actively articulated suspension s
        }
    \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear shoulder, (5) pan shoulder, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT. Source: F. Cordes.}
 \end{figure}
+
+\begin{itemize}
+    \item \textbf{High-Level:} Is the autonomy level of the robot’s control system. Resembles for example navigation, mapping or path planning software. Related behaviors are independent of the physical states of the robot.
+    \item \textbf{Middle-Layer:} Resembles an abstraction of the physical robot. Handles command inputs from the operator or high-level processes and calculates according joint movements. It reacts to sensor inputs and thereby assures system stability for example by monitoring the position of the Center of Gravity (CoG) to avoid tip-over.
+    \item \textbf{Low-Level:} Is close to the physical hardware. This comprises sensors and local joint controllers for example PID controllers for position or velocity control of an individual joint. Besides providing commands to the drive actuators, the MCS design aims to mimick passive suspension with controllable properties.
+\end{itemize}
+
+
 
 
 \subsection{Development Tools}
@@ -177,7 +180,7 @@ The process done by the classifier of processing a sample and providing a classi
 \end{itemize}
 Where $T$ stands for True (correct) and $F$ for False (wrong).
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{../figures/CM_Description.pdf}
     \caption{\label{fig:CMdescrpit} Confusion matrix used to visualize the performance measures, \emph{Precision}, \emph{Recall} and \emph{Accuracy}, of the classifier.\cite{kuhr2021}}
@@ -193,7 +196,7 @@ The proprioceptive sensor data used to calculate the features are listed in Tabl
 The input data is received from the Motion Control System (MCS), Joint Deployment (JD), Sensors Deployment (SD). 
 All forces and torques are represented within the Body Coordinate System (BCS).
 
-\begin{table}[htb!]
+\begin{table}[!htbp]
    \centering
     \begin{tabularx}{\columnwidth}{XXX}
     \textbf{Symbol}& \textbf{Feature} & \textbf{Datastream}  \\
@@ -271,9 +274,9 @@ At each execution of the \emph{updateHook} (every 0.01) new data is stacked in t
 Every 100 \emph{updateHooks} an input matrix is finished and the component triggers the computation of the physical and statisticall features and finally the classification, also named prediction.
 The output of the classification as well as the of the feature computation are delivered to the calling component which retrives the values through its output ports. 
 
-\begin{figure}[htb!]
+\begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
+    \includegraphics[width=0.9\textwidth]{../figures/OverviewTC2.pdf}
     \caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
 \end{figure}
 
@@ -337,6 +340,7 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
     \label{fig:offline-class}
 \end{figure}
 
+\FloatBarrier
 % Evaluation
 
 %A complete analysis of performance was not possible, because the traversed terrain during the field tests did not closly match the previously trained terrain classes. Nevertheless, the software shows good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
@@ -351,7 +355,7 @@ The underperformance in the field tests can be explained with the encountered su
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
 The field trials also demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
 
-\begin{figure}[!t]
+\begin{figure}[!htb]
     \centering
     \subcaptionbox
         {Loose Sand Tests}
@@ -365,7 +369,7 @@ The field trials also demonstrated that the terrain classifier can be executed o
     \label{fig:sh-tests}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!htb]
     \centering
         \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
     \caption{The analog site where the classifier was tested.}
@@ -381,6 +385,8 @@ Since the computation is executed on a single thread, the execution time can be 
 The resulting execution time depends on the threading of the operating system which is in this case is the Linux distribution Ubuntu 18.04 LTS, the same that the onboard system of SherpaTT used during the experiments. 
 The time measures have been taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
 Table~\ref{table:compmeasurments} shows the results of these measurements. 
+
+%\clearpage
 
 \begin{table}[htb!]
    \centering
@@ -420,10 +426,9 @@ The applications of the terrain classifier will include contributions to the env
 Besides the final class of terrain, the module computes physical properties of the surface and yields valuable environmental information. 
 These features can be used in future missions to predict errors in the localization, e.g. due to different friction coefficients or to generate more realistic contact simulations to further improve the control of the system.
 The terrain type has to be taken into account, when setting the costs for the potential paths traversing the corresponding regions. 
-For instance, paths over a slope of certain inclination may be traversed if the surface is composed of a material with high friction, but the same task could become very challenging if the friction coefficient on that surface is low. \\
+For instance, paths over a slope of certain inclination may be traversed if the surface is composed of a material with high friction, but the same task could become very challenging if the friction coefficient on that surface is low. 
 
-
-%\clearpage
+\clearpage
 %\FloatBarrier
 
 \bibliographystyle{alpha}
