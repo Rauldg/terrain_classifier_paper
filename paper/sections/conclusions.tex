@@ -1,0 +1,22 @@
+
+\section{Conclusions}
+
+The presented work explains the implementation of a terrain classifier, which has been deployed and tested onboard of the hybrid locomotion robotic platform SherpaTT.
+It has been shown that the SVM classifier provides useful results and can be run onboard along the rest of the software components.
+
+The classification results on the test data collected along with the training data yield a 93\% of overall accuracy. 
+These results have been improved using Deep Learning techniques as shown in \cite{ugenti2021}. 
+Thus, in the near future we aim to integrate and test this approach onboard of the system.
+During field tests a new type of surface was encountered that did not corresponded to any known class by the classifier. 
+Nevertheless the two closest surface types were selected, which we interpret as a robust response.
+In the future, this could be improved by combining the approach with an unsupervised technique to automatically identify anomalies and potentially generate new types of surfaces.
+
+% Outlook applications
+The applications of the terrain classifier will include contributions to the environment modelling while traversing and the use of the terrain class to adapt various navigation settings.
+Besides the final class of terrain, the module computes physical properties of the surface and yields valuable environmental information. 
+These features can be used in future missions to predict errors in the localization, e.g. due to different friction coefficients or to generate more realistic contact simulations to further improve the control of the system.
+The terrain type has to be taken into account, when setting the costs for the potential paths traversing the corresponding regions. 
+For instance, paths over a slope of certain inclination may be traversed if the surface is composed of a material with high friction, but the same task could become very challenging if the friction coefficient on that surface is low. 
+
+\clearpage
+%\FloatBarrier
