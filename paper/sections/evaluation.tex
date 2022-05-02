@@ -1,9 +1,7 @@
-
 \section{Evaluation}
 \subsection{Offline Classification Performance}
 %\todo[inline]{RD: TODO for @LK: Provide the results that were collected when testing offline}
-%The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance. 
-
+%The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance.
 The components of a Linear Discriminant Analysis (\emph{LDA}) are plotted to visualize the achieved data separation. 
 In the LDA two Linear Discriminant components are represented on the axes, these components are formed from a reduction of the original feature set.
 Figure~\ref{fig:offline-class}(a) shows the dataset LDA plot and highlights the decision boundary of the trained linear SVM kernel. 
@@ -19,10 +17,10 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
     \centering
     \subcaptionbox
         {Linear Discriminant Analysis of the dataset}
-        {\includegraphics[width=0.48\textwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}}
+        {\includegraphics[width=\columnwidth]{../figures/boundary_LDA_prevTesting_all_sand_concrete_compactsand.png}}
     \subcaptionbox
         {Confusion Matrix of the terrain classifier}
-        {\includegraphics[width=0.48\textwidth]{../figures/confusionmatrix_Train.png}}
+        {\includegraphics[width=\columnwidth]{../figures/confusionmatrix_Train.png}}
     \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
     \label{fig:offline-class}
 \end{figure}
@@ -32,9 +30,9 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
 
 %A complete analysis of performance was not possible, because the traversed terrain during the field tests did not closly match the previously trained terrain classes. Nevertheless, the software shows good classification results, since the type of surface -\emph{wet compact sand}- was close to the two classes mostly identified -\emph{concrete} and \emph{compact sand}.
 
-\subsection{Onboard tests}
+\subsection{On-Board tests}
 
-Two main tests were performed to validate the onboard calculation of features and classification performance.
+Two main tests were performed to validate the on-board calculation of features and classification performance.
 The tests consisted of traverses where the component was executing along with the rest of the control and perception sofware components. 
 
 The first of the test was indoors at the DFKI Robotics Innovation Center premises, depicted in Figure~\ref{fig:sh-tests}.
@@ -46,12 +44,12 @@ Nevertheless, the classification performance of these tests is not considered re
     \subcaptionbox
         {Loose Sand Tests}
         {
-        \includegraphics[width=0.4\textwidth]{../figures/spacehall.png}
+        \includegraphics[width=\columnwidth]{../figures/spacehall.png}
         }
     \subcaptionbox
         {Concrete Tests}
-        {\includegraphics[width=0.4\textwidth]{../figures/spacehallconcrete.png}}
-    \caption{Validation of the onboard classifier execution frequencies.}
+        {\includegraphics[width=\columnwidth]{../figures/spacehallconcrete.png}}
+    \caption{Validation of the on-board classifier execution frequencies.}
     \label{fig:sh-tests}
 \end{figure}
 
@@ -63,23 +61,23 @@ A well balanced recall and precision values of the classes were also achieved.
 The underperformance in the field tests are explained by the encountered surface, which did not exactly match any of the previously examined types. 
 Due to rainfalls, the surface consisted of wet compact soil, which sticked to the wheels as shown in Figure~\ref{fig:finaltest}, causing unforseen dynamics.
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
-The field trials also demonstrated that the terrain classifier can be executed onboard of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
+The field trials also demonstrated that the terrain classifier can be executed on-board of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
 
 \begin{figure}[!htbp]
     \centering
-        \includegraphics[width=0.4\textwidth]{../figures/sandmine_v2.jpg}
+        \includegraphics[width=\columnwidth]{../figures/sandmine_v2.jpg}
     \caption{The analog site where the classifier was tested.}
     \label{fig:finaltest}
 \end{figure}
 
-\FloatBarrier
+%\FloatBarrier
 
 \subsection{Computational Performance}
 
 %The C++ calculations and terrain classifications were executed in sufficient time in parallel to the rest of SherpaTT's Motion Control System, on a single thread, using a i7 processor with a CPU clock speed of 4.6 GHz.
 The execution time of the code has been repeatedly measured. 
 Since the computation is executed on a single thread, the execution time can be identified measuring the averaged wall time of the code execution. 
-The resulting execution time depends on the threading of the operating system which is in this case is the Linux distribution Ubuntu 18.04 LTS, the same that the onboard system of SherpaTT used during the experiments. 
+The resulting execution time depends on the threading of the operating system which is in this case is the Linux distribution Ubuntu 18.04 LTS, the same that the on-board system of SherpaTT used during the experiments. 
 The time measures have been taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
 Table~\ref{table:compmeasurments} shows the results of these measurements. 
 
@@ -87,8 +85,8 @@ Table~\ref{table:compmeasurments} shows the results of these measurements.
 
 \begin{table}[htb!]
    \centering
-    \begin{tabularx}{\columnwidth}{X|XXX}
-        \textbf{Method:} & \multicolumn{3}{X}{Wall Time [$ms$]} \\
+    \begin{supertabular}{c|ccc}
+        \textbf{Method:} & \multicolumn{3}{c}{Wall Time [$ms$]} \\
         &min.&max.&avg.\\
         \hline
         \hline
@@ -97,7 +95,7 @@ Table~\ref{table:compmeasurments} shows the results of these measurements.
         \textbf{svmPredict():}        &  0. &  0.001 & 0.0007  \\
         \hline
         \textbf{overall:}             & 15.3 & 30.1 &20.3  \\
-    \end{tabularx}	
+    \end{supertabular}	
     \caption{Wall time measurements of the methods of the C++ classification library.}
     \label{table:compmeasurments}
 \end{table}
