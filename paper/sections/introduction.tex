@@ -1,0 +1,29 @@
+\section{Introduction}
+
+% Introduction main motivation and main idea of the paper explain in detail the implementation of a SMV-based proprioceptive terrain classifier
+Planetary explorations missions are so far dominated by wheeled rover designs like Curiosity
+or Perseverance \citep{moeller2021, welch2013}. Although wheeled locomotion is most energy-efficient
+over flat terrain, it compromises drawbacks when exposed to demanding unstructured
+terrain. Especially in unstructured environments with steep, sandy slopes and boulders
+patches, wheeled systems reach their limitations \citep{kolvenbach2021}. In the past, several high slip and
+excessive sinkage events have been encountered with exploration rovers, which have severely
+disrupted mission timelines \citep{gonzalez2018}. It took five weeks to free the Opportunity
+rover from sand in 2006 \citep{young2006} and rover trajectories need to be frequently adjusted to avoid
+challenging terrain \citep{arvidson2017}. The potentially worst situation occurred in 2009, when the
+Spirit rover got stuck in sand and was unable to recover, ultimately ending the mission
+\citep{webster2009}. 
+Terrain awareness, the correct modelling of transited surfaces and its classification is a key factor for reliable autonomous navigation. 
+Surface modelling can be used for navigation in order to avoid operation problems like the ones previously described. 
+Moreover, terrain awareness may enhance navigation capabilities, if drive settings are adapted in accordance to the 
+terrain properties.
+
+In this publication we introduce a software component capable of classifying three different terrain types based on the proprioceptive sensor data of SherpaTT. 
+The component uses a Support Vector Machine (SVM) algorithm \citep{vapnik1992,cristianini2000} in its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT embedded into the Robotics Construction Toolkit (Rock) framework, such that it can be executed sufficiently fast during navigation. The terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
+The three types represent distinct classes of surfaces characterized by its deformability and friction properties. In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed previous to the classification. 
+%\todo[inline]{RD: Some small state of the art here would be interesting presenting what others have done, not long but at least presenting some similar works}
+
+%Moreover, the classification performance achieved onboard SherpaTT was identified during tests on terrain that represent at least one of the three terrain type classes.
+Section 2 introduces the most important concepts for a complete understanding of the paper, namely the hybrid robot SherpaTT, the development tools and the details of the classifier design. 
+The Section 3 explains the implementation challenges and the solutions applied. 
+On Section 4 the different evaluations to which the terrain classifier implementation was subjected -offline, on-board and performance.
+Finally Section 5 concludes the paper with a summary and outlook.
