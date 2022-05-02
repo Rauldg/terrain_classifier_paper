@@ -8,9 +8,9 @@ Figure~\ref{fig:offline-class}(a) shows the dataset LDA plot and highlights the 
 The areas of different terrain types are highlighted by the corresponding colors. 
 It is shown that the data of the terrain types can be separated for most of the samples.
 
-The offline evaluation of the SVM classifier reached an accuracy of 93.97\% depicted in the confusion matrix in Figure~\ref{fig:offline-class}(b). 
-A small portion of the collected data where SherpaTT was not moving was sliced out. 
-Based on the sliced data the classification accuracy could be increased by 2\%.
+The offline evaluation of the SVM classifier reaches an accuracy of 93.97\% depicted in the confusion matrix in Figure~\ref{fig:offline-class}(b). 
+A small portion of the collected data where SherpaTT was not moving has been manually removed. 
+Based on the sliced data the classification accuracy is increased by 2\%.
 Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%.
 
 \begin{figure}[!htb]
@@ -54,12 +54,12 @@ Nevertheless, the classification performance of these tests is not considered re
 \end{figure}
 
 The second test took place during the final field trials of the ADE project \cite{ocon2021} in a sand mine in Wulsbüttel, Northern Germany.
-These tests provided comparable conditions as the ones within the training data set, because the power generator was activated. 
-Several traverses of SherpaTT were logged and checked for consistency to validate the feature calculation. 
+These tests provided comparable conditions with the ones within the training data set, because the power generator was activated. 
+Several traverses of the SherpaTT rover were logged and checked for consistency to validate the feature calculation. 
 The classification accuracy reached 87\%. 
 A well balanced recall and precision values of the classes were also achieved. 
 The underperformance in the field tests are explained by the encountered surface, which did not exactly match any of the previously examined types. 
-Due to rainfalls, the surface consisted of wet compact soil, which sticked to the wheels as shown in Figure~\ref{fig:finaltest}, causing unforseen dynamics.
+Due to rainfalls, the surface consisted of wet compact soil which sticked to the wheels as shown in Figure~\ref{fig:finaltest}, causing unforeseen dynamics.
 Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
 The field trials also demonstrated that the terrain classifier can be executed on-board of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
 
@@ -78,7 +78,7 @@ The field trials also demonstrated that the terrain classifier can be executed o
 The execution time of the code has been repeatedly measured. 
 Since the computation is executed on a single thread, the execution time can be identified measuring the averaged wall time of the code execution. 
 The resulting execution time depends on the threading of the operating system which is in this case is the Linux distribution Ubuntu 18.04 LTS, the same that the on-board system of SherpaTT used during the experiments. 
-The time measures have been taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
+The time measures were taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
 Table~\ref{table:compmeasurments} shows the results of these measurements. 
 
 %\clearpage
@@ -100,5 +100,5 @@ Table~\ref{table:compmeasurments} shows the results of these measurements.
     \label{table:compmeasurments}
 \end{table}
 
-As the averaged execution time of the C++ classification library is 20.3 $ms$ this could lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. 
-The drop of one data sample of the one hundred data samples that are strapped every second is assumed to be acceptable.
+As the averaged execution time of the C++ classification library is 20.3 $ms$ this can lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. 
+The drop of one data sample of the one hundred data samples that are strapped every second is assessed to be acceptable.
