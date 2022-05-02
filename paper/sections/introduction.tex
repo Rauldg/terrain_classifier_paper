@@ -3,9 +3,9 @@
 % Introduction main motivation and main idea of the paper explain in detail the implementation of a SMV-based proprioceptive terrain classifier
 Planetary exploration missions are so far dominated by wheeled rover designs like Curiosity
 or Perseverance \citep{moeller2021, welch2013}. Although wheeled locomotion is most energy-efficient
-over flat terrain, it suffers from drawbacks when exposed to a demanding unstructured
-terrain. Especially in unstructured environments with steep, sandy slopes and boulders
-patches, wheeled systems show their limitations \citep{kolvenbach2021}. In the past, several high slip and
+over flat terrain, it comprises drawbacks when exposed to more demanding unstructured
+terrain. Especially in environments with steep, sandy slopes and boulders
+patches, wheeled systems reveal their limitations \citep{kolvenbach2021}. In the past, several high slip and
 excessive sinkage events have been encountered with exploration rovers, which have severely
 disrupted mission timelines \citep{gonzalez2018}. It took five weeks to free the Opportunity
 rover from sand in 2006 \citep{young2006} and rover trajectories need to be frequently adjusted to avoid
@@ -17,12 +17,10 @@ Surface modelling can be used for navigation in order to avoid operational probl
 Moreover, terrain awareness may enhance navigation capabilities, if the drive settings are adapted in accordance to the 
 terrain properties.
 
-In this publication we introduce a software component capable of classifying three different terrain types based on the proprioceptive sensor data of the SherpaTT rover. 
-The component uses a Support Vector Machine (SVM) algorithm \citep{vapnik1992,cristianini2000} at its core. It is integrated into the software control architecture of the mobile exploration robot SherpaTT embedded into the Robotics Construction Toolkit (Rock) framework, such that it can be executed sufficiently fast during navigation. The terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
-The three types represent distinct classes of surfaces characterized by its deformability and friction properties. In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is performed prior to the classification. 
+In this publication the authors introduce a software component capable of classifying three different terrain types based on the proprioceptive sensor data of the SherpaTT rover. 
+The component uses a Support Vector Machine (SVM) algorithm \citep{vapnik1992,cristianini2000} at its core. It is integrated into the software control architecture of the mobile exploration rover SherpaTT and embedded into the Robotics Construction Toolkit (Rock) framework, such that it can be executed sufficiently fast during navigation. The terrain classifier uses force torque sensors, joint data and body acceleration estimates to classify the surface into one of three terrain types: \emph{sand, compact sand} and \emph{concrete}.
+The three types represent distinct classes of surfaces characterized by its deformability and friction properties. In order to achieve a better classification performance as well as a more in-depth characterization of the surface patches, a feature calculation process is executed prior to the classification. 
 %\todo[inline]{RD: Some small state of the art here would be interesting presenting what others have done, not long but at least presenting some similar works}
 
 %Moreover, the classification performance achieved onboard SherpaTT was identified during tests on terrain that represent at least one of the three terrain type classes.
-After introducing the most important background concepts concerning this work in Section 2, Section 3 explains the terrain classifier implementation challenges and the solutions applied. 
-On Section 4 the different evaluations to which the terrain classifier implementation was subjected -offline, on-board and performance.
-Finally Section 5 concludes the paper with a summary and outlook.
+After introducing the main background concepts concerning this work in Section 2, Section 3 explains the challenges faced throughout the implementation of the terrain classifier and the applied solutions. In Section 4 the evaluation of offline and on-board performance of the terrain classifier is described. Finally, Section 5 concludes the paper with a summary and gives an outlook for future work.

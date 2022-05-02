@@ -3,13 +3,13 @@
 %\todo[inline]{RD: TODO for @LK: Provide the results that were collected when testing offline}
 %The SVM model training software is implemented to enable the use of a variable constellation of logged datasets. Moreover, it can be used to compare both the oﬄine and online classification performance.
 The components of a Linear Discriminant Analysis (\emph{LDA}) are plotted to visualize the achieved data separation. 
-In the LDA two Linear Discriminant components are represented on the axes, these components are formed from a reduction of the original feature set.
-Figure~\ref{fig:offline-class}(a) shows the dataset LDA plot and highlights the decision boundary of the trained linear SVM kernel. 
+In the LDA two Linear Discriminant components are represented on the axes. These components are formed from a reduction of the original feature set.
+Figure~\ref{fig:offline-class}(a) shows a LDA plot of the dataset and highlights the decision boundary of the trained linear SVM kernel. 
 The areas of different terrain types are highlighted by the corresponding colors. 
 It is shown that the data of the terrain types can be separated for most of the samples.
 
-The offline evaluation of the SVM classifier reaches an accuracy of 93.97\% depicted in the confusion matrix in Figure~\ref{fig:offline-class}(b). 
-A small portion of the collected data where SherpaTT was not moving has been manually removed. 
+The offline evaluation of the SVM classifier reaches an accuracy of 93.97\%, depicted in the confusion matrix in Figure~\ref{fig:offline-class}(b). 
+A small portion of the collected data where SherpaTT was not moving was manually removed. 
 Based on the sliced data the classification accuracy is increased by 2\%.
 Except the recall for \emph{compact sand} and the precision for \emph{sand} all performances are above 90\%, with an overall accuracy of 93.97\%.
 
@@ -21,7 +21,7 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
     \subcaptionbox
         {Confusion Matrix of the terrain classifier}
         {\includegraphics[width=\columnwidth]{../figures/confusionmatrix_Train.png}}
-    \caption{(a) LDA visualization, the areas of different terrain types as classified by the SVM are highlighted by the corresponding colors. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
+    \caption{(a) LDA visualization of different terrain types as classified by the SVM. The areas are highlighted with colors corresponding to the accuracy of the classification. (b) Performance of the SVM model, the overall accuracy yields 93.97\% }
     \label{fig:offline-class}
 \end{figure}
 
@@ -32,11 +32,11 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
 
 \subsection{On-Board tests}
 
-Two main tests were performed to validate the on-board calculation of features and classification performance.
-The tests consisted of traverses where the component was executing along with the rest of the control and perception sofware components. 
+Two main tests were performed to validate the on-board feature calculation and classification performance. The software components were running in parallel with the rest of the control and perception software while the rover was traversing
+the test area.
 
-The first of the test was indoors at the DFKI Robotics Innovation Center premises, depicted in Figure~\ref{fig:sh-tests}.
-During the test, the classifier ran at the pursued frequency of 100Hz.
+The first test was excecuteed indoors at the DFKI Robotics Innovation Center premises, depicted in Figure~\ref{fig:sh-tests}.
+During the test, the classifier ran at the pursued frequency of 100 $Hz$.
 Nevertheless, the classification performance of these tests is not considered representative, since the power generator was not active and the hardest surface was not as firm as concrete. 
 
 \begin{figure}[!htbp]
@@ -54,14 +54,13 @@ Nevertheless, the classification performance of these tests is not considered re
 \end{figure}
 
 The second test took place during the final field trials of the ADE project \cite{ocon2021} in a sand mine in Wulsbüttel, Northern Germany.
-These tests provided comparable conditions with the ones within the training data set, because the power generator was activated. 
+These test runs provided comparable conditions with the ones within the training data set, because the power generator was activated. 
 Several traverses of the SherpaTT rover were logged and checked for consistency to validate the feature calculation. 
-The classification accuracy reached 87\%. 
-A well balanced recall and precision values of the classes were also achieved. 
-The underperformance in the field tests are explained by the encountered surface, which did not exactly match any of the previously examined types. 
-Due to rainfalls, the surface consisted of wet compact soil which sticked to the wheels as shown in Figure~\ref{fig:finaltest}, causing unforeseen dynamics.
-Nevertheless, the classification resulted in a 87.69\% as \emph{concrete} and a 12.31\% as \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
-The field trials also demonstrated that the terrain classifier can be executed on-board of SherpaTT and that it is able to compute the correct features as well as classify different terrain types successfully while the rover traverses a surface.
+The classification accuracy reached 87\%. Well balanced recall and precision values of the classes were also achieved. 
+The underperformance in the field tests can be explained by the encountered surface, which did not closely match any of the previously examined types. 
+Due to rainfalls, the surface turned into wet compact soil and sticked to the wheels as shown in Figure~\ref{fig:finaltest}, causing unaccounted dynamics.
+Nevertheless, the classification resulted in 87.69\% \emph{concrete} and 12.31\% \emph{compact sand}, complying with the closest types of terrain the classifier was trained with.
+The field trials demonstrated that the terrain classifier can be executed on-board of SherpaTT, that it is able to compute correct features and to classify different terrain types successfully while the rover is traversing the surface.
 
 \begin{figure}[!htbp]
     \centering
@@ -77,8 +76,7 @@ The field trials also demonstrated that the terrain classifier can be executed o
 %The C++ calculations and terrain classifications were executed in sufficient time in parallel to the rest of SherpaTT's Motion Control System, on a single thread, using a i7 processor with a CPU clock speed of 4.6 GHz.
 The execution time of the code has been repeatedly measured. 
 Since the computation is executed on a single thread, the execution time can be identified measuring the averaged wall time of the code execution. 
-The resulting execution time depends on the threading of the operating system which is in this case is the Linux distribution Ubuntu 18.04 LTS, the same that the on-board system of SherpaTT used during the experiments. 
-The time measures were taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
+The resulting execution time depends on the threading of the operating system which in this case is the Linux distribution Ubuntu 18.04 LTS. The time measures were taken on an i7 processor with a CPU clock speed of 4.6 GHz. 
 Table~\ref{table:compmeasurments} shows the results of these measurements. 
 
 %\clearpage
@@ -100,5 +98,5 @@ Table~\ref{table:compmeasurments} shows the results of these measurements.
     \label{table:compmeasurments}
 \end{table}
 
-As the averaged execution time of the C++ classification library is 20.3 $ms$ this can lead to the delay of the next data collection step which are done every 10 $ms$ and hence cause the drop of one data sample per second. 
-The drop of one data sample of the one hundred data samples that are strapped every second is assessed to be acceptable.
+As the averaged execution time of the C++ classification library is 20.3 $ms$ this can lead to a delay of the next data collection step which is repeated every 10 $ms$ and hence can cause the drop of one data sample per second. 
+The drop of one data sample out of the one hundred data samples that are strapped every second is assessed to be acceptable.

@@ -2,20 +2,20 @@
 \section{Implementation}
 
 The classifier control loop has a target frequency of 100 $Hz$, matching the highest input frequency (joint status). 
-To address the issue of other streams having lower frequency, the simple solution of using the same data as input for several entries in the classifier input matrices is used (i.e. zero holder hold). 
-The classification is performed on matrices composed from information generated from 100 samples. 
+A zero order hold is used for data streams with a lower update frequency. 
+The classification is performed on matrices composed with information generated from 100 samples. 
 Thus, a classification is generated every second.
-In other words, every 100 samples, a matrix input for the classifier is completed and a new classification is performed, which happens every 1 $s$.
+In other words, every 100 samples a matrix input for the classifier is completed and a new classification is performed, which happens every 1 $s$.
 Since the speed of the rover in the analyzed data sets is 0.1 $m/s$, the resolution of the categorized patches of terrain is 10 $cm$ long.  
 
-The classification results are required frequently to allow other on-board components take advantage of the results (e.g. to improve navigation) and to ensure that the classification results correspond to the currently traversed surface. 
-Likewise, the loss of data samples due to full queues on the input of the processing components need to be avoided. 
+The classification results are required frequently to allow other on-board components take advantage of the results (e.g. to improve navigation) and to ensure that the classification result corresponds to the currently traversed surface. 
+Likewise, the loss of data samples due to full queues on the input of the processing components needs to be avoided. 
 
 The diagram in Figure~\ref{fig:overview} presents the implementation approach of the terrain classifier in Rock. 
-The first step which needs to be performed efficiently is the extraction from the data sample of the relevant fields of data which is done using the \emph{type to vector} Rock tool.
-At each execution of the \emph{updateHook} (every 0.01) new data is stacked in the input matrix.
-Every 100 \emph{updateHooks} executions, an input matrix is finished and the component triggers the computation of the physical and statisticall features and finally the classification, a \emph{prediction}.
-The output of the classification as well as the of the computed features are delivered to the calling component which retrives the values through its output ports. 
+The first step, the extraction of a data sample from the relevant fields of data, is done using the \emph{type to vector} Rock tool and needs to be performed efficiently 
+At each execution of the \emph{updateHook} (every 0.01 $s$) new data is stacked in the input matrix.
+Every hundred \emph{updateHook} executions, an input matrix is finished and the component triggers the computation of the physical and statistical features as well as the classification itself, the \emph{prediction}.
+The output of the classification and the computed features are delivered to the calling component which retrives the values through its output ports. 
 
 \begin{figure*}[!htbp]
     \centering
@@ -25,10 +25,10 @@ The output of the classification as well as the of the computed features are del
 
 \subsection{Training Data}
 
-An essential aspect needed to achieve a good classification performance is to have a consistent and large data collection available for training and testing. 
-The data collection available for this implementation consists of a dataset composed of traverses that were acquired by remote commanding the rover over the 3 examined terrain types: \emph{loose sand}, \emph{compact sand} and \emph{concrete}. 
-One traverse in the dataset corresponds to the forward and backward driving of 10 $m$. 
-The following conditions are the same during all traverses: (1) fixed wheel configuration, (2) surfaces without inclination, (3) traverse speed 0.1 $m/s$, (4) straight traverses and (5) electric power generator is running, which causes vibrations.
+An essential requirement for a good classification performance is the availability of a consistent and large data collection for training and testing. 
+The data collection available for this implementation consists of a dataset composed of traverses that are acquired by remotely commanding the rover over the three examined terrain types: \emph{loose sand}, \emph{compact sand} and \emph{concrete}. 
+One traverse in the dataset corresponds to driving 10 $m$ forwards and backwards. 
+The following conditions are kept consistent during all traverses: (1) fixed wheel configuration, (2) surfaces without inclination, (3) traverse speed of 0.1 $m/s$, (4) straight traverses and (5) the electric power generator is running, which causes vibrations.
 Figure~\ref{fig:TestLocs} shows images of the rover traversing the different terrains during the data collection.
 
 
@@ -48,7 +48,7 @@ Figure~\ref{fig:TestLocs} shows images of the rover traversing the different ter
 \end{figure}
 
 In terms of quantity, the data collection consists of 2200 training samples for each of the 76 features. 
-Regarding data balance, the data from the terrain type loose sand represents 28\% of the total and the concrete and compact sand represent 36\% each. 
-When generating a SVM model, the available data collection is divided into training and testing sets. 
+Regarding data balance, the data gathered from the terrain type loose sand represents 28\%, whereas concrete and compact sand each represent 36\% of the total amount of data.
+When generating a SVM model, the collected data is divided into training and testing sets. 
 For the presented classifier, one of the traverses of each terrain is used for testing and all other traverses are used for training. 
 This yields a ratio of about 25\%/75\%.
