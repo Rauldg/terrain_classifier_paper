@@ -2,20 +2,20 @@
 \section{Conclusions}
 
 The presented work explains the implementation of a terrain classifier, which has been deployed and tested on-board of the hybrid locomotion robotic platform SherpaTT.
-It has been shown that the SVM classifier provides useful results and can be run on-board along the rest of the software components.
+It has been shown that the SVM classifier provides useful results and can be run on-board along with the rest of the software components.
 
-The combined classification results on collected test and training data yield ´93\% of overall accuracy. 
-These results were improved using Deep Learning techniques as shown in \cite{ugenti2021}. 
-Thus, in the future the authors aim to integrate and test this approach on-board of the system.
+The combined classification results on collected test and training data yield 93\% of overall accuracy.
+The offline results achieved with SVM have been recently improved with Deep Learning techniques \cite{ugenti2021}, but this approach has not been deployed on-board of the system yet.
+Thus, the authors aim to also integrate and test the terrain classifier with Deep Learning in the near future on-board of the rover.
 During field tests a new type of surface was encountered that did not corresponded to any known class by the classifier. 
 Nevertheless, the two closest surface types were selected, which the authors interpret as a robust response.
-The approach could be further improved by combining it with an unsupervised technique to automatically identify anomalies and potentially generate new types of surfaces.
+The approach could be further improved by combining it with an unsupervised learning technique to automatically identify anomalies and potentially generate new types of surfaces.
 
 % Outlook applications
 Applications of the terrain classifier include contributions to environment modelling while the rover is traversing a surface and the use of the identified terrain class to adapt various navigation settings.
 Besides the  class of terrain, the module computes physical properties of the surface and yields valuable environmental information. 
-These features can be used in future missions to predict errors in localization, e.g. due to different friction coefficients or to generate more realistic contact simulations in order to further improve the control of the system.
-The terrain type has to be taken into account, when setting the costs for different paths traversing the potential regions. 
+These features can be exploited in future missions to predict errors in localization, e.g. due to different friction coefficients or to generate more realistic contact simulations in order to further improve the control of the system.
+The terrain type has to be taken into account, when setting costs for multiple potential paths traversing different regions. 
 For instance, paths over a slope of certain inclination may be traversed if the surface is composed of a material with high friction, but the same task could become very challenging if the friction coefficient on that surface is low. 
 
 %\clearpage

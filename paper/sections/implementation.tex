@@ -1,7 +1,7 @@
 
 \section{Implementation}
 
-The classifier control loop has a target frequency of 100 $Hz$, matching the highest input frequency (joint status). 
+The classifier control loop has a target frequency of 100~$\mathit{Hz}$, matching the highest input frequency (joint status). 
 A zero order hold is used for data streams with a lower update frequency. 
 The classification is performed on matrices composed with information generated from 100 samples. 
 Thus, a classification is generated every second.
@@ -15,13 +15,41 @@ The diagram in Figure~\ref{fig:overview} presents the implementation approach of
 The first step, the extraction of a data sample from the relevant fields of data, is done using the \emph{type to vector} Rock tool and needs to be performed efficiently 
 At each execution of the \emph{updateHook} (every 0.01 $s$) new data is stacked in the input matrix.
 Every hundred \emph{updateHook} executions, an input matrix is finished and the component triggers the computation of the physical and statistical features as well as the classification itself, the \emph{prediction}.
-The output of the classification and the computed features are delivered to the calling component which retrives the values through its output ports. 
+The output of the classification and the computed features are delivered to the calling component which retrives the values through 
 
-\begin{figure*}[!htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{../figures/OverviewTC2.pdf}
-    \caption{\label{fig:overview}Overview of the terrain classifier library and Rock integration.}
+\begin{figure*}[!h] 
+	\centering 
+	\begin{minipage}[t]{\linewidth} 
+		\centering 
+		\includegraphics[width=\textwidth]{../figures/OverviewTC2.pdf}
+		\caption{\label{fig:overview}Overview of the terrain classifier library and its integration into Rock.}
+		\vspace{0.5cm}
+	\end{minipage} 
+    
+	\begin{minipage}[t]{0.3\linewidth} 
+		\centering 
+		\includegraphics[width=\textwidth]{../figures/unprepsand.png} 
+		\subcaption{loose sand} 
+	\end{minipage} 
+	\quad 
+	\begin{minipage}[t]{0.3\linewidth} 
+		\centering 
+		\includegraphics[width=\textwidth]{../figures/compact.png} 
+		\subcaption{compact sand} 
+	\end{minipage}
+	\quad 
+    \begin{minipage}[t]{0.3\linewidth} 
+		\centering 
+		\includegraphics[width=\textwidth]{../figures/concrete.png} 
+		\subcaption{concrete} 
+	\end{minipage}
+	\caption{The test locations where the data sets were acquired.}
+	\label{fig:TestLocs}
 \end{figure*}
+
+
+its output ports. 
+
 
 \subsection{Training Data}
 
@@ -32,23 +60,8 @@ The following conditions are kept consistent during all traverses: (1) fixed whe
 Figure~\ref{fig:TestLocs} shows images of the rover traversing the different terrains during the data collection.
 
 
-\begin{figure}[!htb]
-   \centering
-    \subcaptionbox
-        {Loose Sand}
-        {\includegraphics[width=\columnwidth]{../figures/unprepsand.png}}
-    \subcaptionbox
-        {Compact Sand}
-        {\includegraphics[width=\columnwidth]{../figures/compact.png}}
-    \subcaptionbox
-        {Concrete}
-        {\includegraphics[width=\columnwidth]{../figures/concrete_v2.png}}
-    \caption{The test locations where the data sets were acquired.}
-    \label{fig:TestLocs}
-\end{figure}
-
 In terms of quantity, the data collection consists of 2200 training samples for each of the 76 features. 
 Regarding data balance, the data gathered from the terrain type loose sand represents 28\%, whereas concrete and compact sand each represent 36\% of the total amount of data.
 When generating a SVM model, the collected data is divided into training and testing sets. 
 For the presented classifier, one of the traverses of each terrain is used for testing and all other traverses are used for training. 
-This yields a ratio of about 25\%/75\%.
+This yields a percentage of about 75\% training data and 25\% testing data.

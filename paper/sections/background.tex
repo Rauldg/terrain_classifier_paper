@@ -9,13 +9,14 @@
        \label{fig:SensorInputs}Sensor and joint inputs to the Terrain Classifier
        }
        {
-           \includegraphics[width=\columnwidth]{../figures/terrain_classifier_sensor_inputs.png}
+           \includegraphics[width=0.9\columnwidth]{../figures/terrain_classifier_sensor_inputs.png}
        }
+   \qquad \qquad
    \subcaptionbox{
        \label{fig:MCS}Motion Control System of SherpaTT
        }
        {
-           \includegraphics[width=\columnwidth]{../figures/MCS-Structure.pdf}
+           \includegraphics[width=\columnwidth]{../figures/MCS-Structure.png}
        }
    \caption{\label{fig:Loco}(a) Input features for the terrain classifier originate from the following actuators (1)-(5) and sensors (6)-(7) on SherpaTT: (1) wheel drive, (2) wheel steering, (3) linear knee, (4) linear hip, (5) pan hip, (6) IMU, (7) Force-Torque. (b) Simplified layout of the Motion Control System of SherpaTT \citep{cordes_phd_2018}.}
 \end{figure*}
@@ -85,16 +86,35 @@ A description of the three class confusion matrix used to present the results in
 The three evaluated aspects or performance measures are \emph{precision}, \emph{recall} and \emph{accuracy}.
 The step of processing a sample and providing a classification label is also referred to as \emph{prediction}.
 
+\vspace{50px}
+
 \begin{itemize}
-\item \textbf{Accuracy} measures the overall percentage of correctly classified samples: $\frac{T\textsubscript{overall}}{(T+F)\textsubscript{overall}}$ 
-\item \textbf{Recall} measures for each set of samples of each class the correctly classified percentage: $\frac{T\textsubscript{class}}{(T+F)\textsubscript{actual class}}$%: Out of all samples that belong to an actual class does the classifier classify the correct class 
-\item \textbf{Precision} measures for each set of predictions per class the percentage of correct predictions: $\frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}$%: Out of all classifications that the classifier assigns to one class does the classifier classify correctly
+\item \textbf{Accuracy} measures the overall percentage of correctly classified samples: 
+
+    \begin{equation}
+        \frac{T\textsubscript{overall}}{(T+F)\textsubscript{overall}} 
+    \end{equation}
+
+\item \textbf{Recall} measures for each set of samples of each class the correctly classified percentage:
+%: Out of all samples that belong to an actual class does the classifier classify the correct class 
+
+    \begin{equation}
+        \frac{T\textsubscript{class}}{(T+F)\textsubscript{actual class}}
+    \end{equation}
+
+\item \textbf{Precision} measures for each set of predictions per class the percentage of correct predictions: 
+%: Out of all classifications that the classifier assigns to one class does the classifier classify correctly
+
+    \begin{equation}
+        \frac{T\textsubscript{class}}{(T+F)\textsubscript{predicted class}}
+    \end{equation}
+    
 \end{itemize}
 
 
 \begin{figure*}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/CM_Description.pdf}
+    \includegraphics[width=\textwidth]{../figures/CM_Description.pdf}
     \caption{\label{fig:CMdescrpit} Confusion matrix used to visualize the performance measures, \emph{Precision}, \emph{Recall} and \emph{Accuracy}, of the classifier \citep{kuhr2021}.}
 \end{figure*}
 
@@ -108,52 +128,54 @@ The proprioceptive sensor data used to calculate the features is listed in Table
 The input data is received from the Motion Control System (MCS), Joint Deployment (JD) and Sensors Deployment (SD). 
 All forces and torques are represented within the Body Coordinate System (BCS).
 
+\pagebreak
 
-\begin{table}[!htbp]
-    \centering
-    \begin{supertabular}{ccc}
-        \textbf{Symbol}& \textbf{Feature} & \textbf{Datastream}\\
-        \hline
-        $F\textsubscript{x}$ &Longitudinal Force &MCS\\
-        $F\textsubscript{z}$ &Vertical Force &MCS \\ 
-        $T\textsubscript{y}$ &Drive Torque y-axis &MCS\\ 
-        $I $ &Motor Current &JD\\ 
-        $V$ &Voltage &JD\\ 
-        $d\textsubscript{pwm}$ &Dutycycle &JD\\ 
-        $w$ &Angular Wheel Velocity &JD \\
-        $a\textsubscript{x}$ &Acceleration X &SD\\ 
-        $a\textsubscript{z}$ &Acceleration Z &SD\\ 
-    \end{supertabular}
-    \caption{Proprioceptive inputs and supplying datastream}
-    \label{table:features1}
-\end{table}
+\begin{center}
+\bottomcaption{Proprioceptive inputs and supplying datastream.}
+\label{table:features1}
+\tablefirsthead{
+   \textbf{Datastream}        & \textbf{Feature}       & \textbf{Symbol} \\ \hline
+   }
+\begin{supertabular}{ccc}
+        \quad  & \quad               & \quad \\[-5pt]
+        MCS & Longitudinal Force     &  $F\textsubscript{x}$  \\
+        MCS & Vertical Force         & $F\textsubscript{z}$   \\ 
+        MCS & Drive Torque y-axis    & $T\textsubscript{y}$   \\ 
+        JD  & Motor Current          & $I$                    \\ 
+        JD  & Voltage                & $V$                    \\ 
+        JD  & Dutycycle              & $d\textsubscript{pwm}$ \\ 
+        JD  & Angular Wheel Velocity & $w$                    \\
+        SD  & Acceleration X         & $a\textsubscript{x}$   \\ 
+        SD  & Acceleration Z         & $a\textsubscript{z}$   \\ 
+\end{supertabular}
+\end{center}
+
+\begin{center}
+\bottomcaption{Optimal feature set for the classification of terrain types by SherpaTT. The set includes the statistical calculation of mean (M) and standard deviation (SD) per terrain patch.}
+\label{table:features2}
+\tablefirsthead{
+   \textbf{Statistical}        & \textbf{Feature}       & \textbf{Symbol} \\ \hline
+   }
+\begin{supertabular}{ccc}
+     \quad  & \quad                        & \quad \\[-5pt]
+     M,SD	&  Longitudinal Force	       & F\textsubscript{x} \\ 
+     M,SD	&  Drive Torque	around y-axis  & T\textsubscript{y} \\ 
+     M,SD	&  Drive Current	           & I \\  
+     M,SD	&  Acceleration X	           &  a\textsubscript{x}\\ 
+     M,SD	&  Acceleration Z	           & a\textsubscript{z} \\ 
+     M,SD	&  Mechanical Power	           & P\textsubscript{m} \\ 
+     M,SD	&  Electrical Power	           & P\textsubscript{e} \\ 
+     M,SD	&  Friction Coefficient 1	   & \textmu \textsubscript{1} \\ 
+     M,SD	&  Friction Coefficient 2      & \textmu \textsubscript{2}\\ 
+     M,SD	&  Friction Coefficient 3	   & \textmu \textsubscript{3}\\ 
+     M	    &  Angular Wheel Velocity	   &  w      \\ 
+     SD    	&  Speed Deviation	           & $\Delta$w\\ 
+\end{supertabular}	
+\end{center}
 
 Using the inputs in Table~\ref{table:features1}, the physical features listed in Table~\ref{table:features2} are statistically determined for each patch of terrain to be classified.
 The statistical moments, mean, variance, skewness and kurtosis are initially evaluated. 
 A selection of the most useful features for the classification is done using the WB index and the Pearson coefficient to reduce the dimensionality of the data. The equations for physical features calculation and for most critical features selection are both detailed in \citep{Dimastrogiovanni2020}.
-
-\begin{table}[!htb]
-   \centering
-    %\begin{tabularx}{\columnwidth}{XXX}
-    \begin{supertabular}{ccc}
-    \textbf{Statistical} & \textbf{Feature}  & \textbf{Symbol} \\
-    \hline
-     M,SD	&  Longitudinal Force	 & F\textsubscript{x} \\ 
-     M,SD	&  Drive Torque	around y-axis  & T\textsubscript{y} \\ 
-     M,SD	&  Drive Current	 & I \\  
-     M,SD	&  Acceleration X	 &  a\textsubscript{x}\\ 
-     M,SD	&  Acceleration Z	 & a\textsubscript{z} \\ 
-     M,SD	&  Mechanical Power	 & P\textsubscript{m} \\ 
-     M,SD	&  Electrical Power	 & P\textsubscript{e} \\ 
-     M,SD	&  Friction Coefficient 1	 & \textmu \textsubscript{1} \\ 
-     M,SD	&  Friction Coefficient 2 & \textmu \textsubscript{2}\\ 
-     M,SD	&  Friction Coefficient 3	 & \textmu \textsubscript{3}\\ 
-     M	    &  Angular Wheel Velocity	     &  w      \\ 
-     SD    	&  Speed Deviation	 & $\Delta$w\\ 
-    %\end{tabularx}	
-    \end{supertabular}	
-    \caption{Optimal feature set for the classification of terrain types by SherpaTT. The set includes the statistical calculation of mean (M) and standard deviation (SD) per terrain patch.\label{table:features2}}
-\end{table}
 
 %\subsubsection{Linear Discriminant Analysis}
 %copy paste from thesis
