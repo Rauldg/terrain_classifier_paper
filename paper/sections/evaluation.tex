@@ -23,7 +23,7 @@ Except the recall for \emph{compact sand} and the precision for \emph{sand} all 
 
 \begin{figure}
     \centering
-    {\includegraphics[width=\columnwidth]{../figures/confusionmatrix_Train.png}}
+    {\includegraphics[width=\columnwidth]{../figures/confusionmatrix_Train_yellow.png}}
     \caption{ The confusion matrix of the terrain classifier shows the performance of the SVM model with respect to the different terrain types. The overall accuracy yields 93.97\% }
     \label{fig:CM}
 \end{figure}
@@ -44,15 +44,18 @@ During the test, the classifier ran at the pursued frequency of 100~$\mathit{Hz}
 Nevertheless, the classification performance of these tests is not considered representative, since the power generator was not active and the hardest surface was not as firm as concrete. 
 
 \begin{figure}[!htbp]
-    \centering
+    \begin{center}
     \subcaptionbox
         {Loose Sand Tests}
         {
-        \includegraphics[width=\columnwidth]{../figures/spacehall.png}
+            \includegraphics[width=\columnwidth]{../figures/spacehall.png}
         }
     \subcaptionbox
         {Concrete Tests}
-        {\includegraphics[width=\columnwidth]{../figures/spacehallconcrete.png}}
+        {
+            \includegraphics[width=\columnwidth]{../figures/spacehallconcrete.png}
+        }
+    \end{center}
     \caption{Validation of execution frequencies for the on-board terrain classifier.}
     \label{fig:sh-tests}
 \end{figure}
